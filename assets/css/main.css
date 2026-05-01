@@ -418,7 +418,7 @@ h1,
   color: var(--white);
   background:
     linear-gradient(90deg, rgba(16, 24, 32, 0.95), rgba(16, 24, 32, 0.58)),
-    url("/images/hero-bjj-burgas.png") center / cover;
+    var(--page-hero-image) center / cover;
 }
 
 .page-hero p {

@@ -4,6 +4,7 @@ import { pages, phone, ui } from '~/data/site'
 const { lang } = useLang()
 usePageSeo(pages.home, '/')
 const config = useRuntimeConfig()
+const heroImage = useAssetPath('/images/hero-bjj-burgas.png')
 const activeSlide = ref(0)
 let slideTimer: ReturnType<typeof setInterval> | undefined
 
@@ -47,7 +48,7 @@ useHead(() => ({
   <div>
     <section class="home-slider" aria-label="Hero slider">
       <article class="slide" :class="{ active: activeSlide === 0 }">
-        <img src="/images/hero-bjj-burgas.png" alt="">
+        <img :src="heroImage" alt="">
         <div class="slide-content">
           <p class="eyebrow">{{ pages.home[lang].heroEyebrow }}</p>
           <h1>{{ pages.home[lang].heroTitle }}</h1>
@@ -59,7 +60,7 @@ useHead(() => ({
         </div>
       </article>
       <article class="slide second" :class="{ active: activeSlide === 1 }">
-        <img src="/images/hero-bjj-burgas.png" alt="">
+        <img :src="heroImage" alt="">
         <div class="slide-content">
           <p class="eyebrow">BJJ • EQ • Soft Skills</p>
           <h2>{{ pages.home[lang].slideTwoTitle }}</h2>
