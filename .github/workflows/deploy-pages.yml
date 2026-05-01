@@ -38,6 +38,9 @@ jobs:
           NUXT_PUBLIC_SITE_URL: https://alexunique1.github.io/bagatur
           NUXT_PRERENDER_ROUTES: 'true'
 
+      - name: Add SPA fallback
+        run: cp .output/public/index.html .output/public/404.html
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
