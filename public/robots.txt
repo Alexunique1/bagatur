@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bagatur-bjj.bg/sitemap.xml

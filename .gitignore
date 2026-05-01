@@ -1,0 +1,14 @@
+node_modules/
+.nuxt/
+.output/
+.npm-cache/
+
+dev-server.out.log
+dev-server.err.log
+
+.env
+.env.*
+!.env.example
+
+*.local
+*.log

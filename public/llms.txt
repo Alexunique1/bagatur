@@ -1,0 +1,31 @@
+# Багатур BJJ Burgas
+
+Багатур е нова академия по бразилско джиу-джицу в Бургас, България. Основният език на сайта е български, с английска версия чрез езиков селектор.
+
+## Core Pages
+
+- Home: /
+- About, mission and values: /about
+- Development methodology: /methodology
+- Mentors: /mentors
+- Blog: /blog
+- Kids 4-7: /kids/4-7
+- Kids 8-13: /kids/8-13
+- Adults BJJ: /adults/bjj
+- Functional training: /adults/functional-training
+- Events calendar: /events/calendar
+- GYMNASIUM CAMP: /events/gymnasium-camp
+- Schedule: /schedule
+- Vacancies: /vacancies
+- Privacy policy: /privacy
+- Public offer: /offer
+- Terms: /terms
+
+## Contact
+
+Phone: +359 877 069 665
+Tel link: tel:+359877069665
+
+## Positioning
+
+The academy offers Brazilian Jiu-Jitsu for children aged 4-7 and 8-13, adult BJJ groups, functional training, trial classes, events, competitions and development camps.
