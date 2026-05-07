@@ -1,18 +1,10 @@
 <script setup lang="ts">
-import { pages } from '~/data/site'
+import { pageMap } from '~/data/content'
 
-const { lang } = useLang()
-usePageSeo(pages.about, '/about')
+const page = useLocalizedItem(pageMap['/about'])
+useLocalizedHead(page.value.title, page.value.description, '/about')
 </script>
 
 <template>
-  <div>
-    <PageHero :title="pages.about[lang].heading" :text="pages.about[lang].body" eyebrow="Bagatur" />
-    <section class="section bullet-grid">
-      <article v-for="item in pages.about[lang].bullets" :key="item">
-        <h2>{{ item }}</h2>
-      </article>
-    </section>
-    <TrialCta />
-  </div>
+  <PageShell v-bind="page" />
 </template>

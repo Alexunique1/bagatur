@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { simplePages } from '~/data/site'
+import { pageMap } from '~/data/content'
 
-const { lang } = useLang()
-usePageSeo(simplePages.vacancies, '/vacancies')
+const page = useLocalizedItem(pageMap['/vacancies'])
+useLocalizedHead(page.value.title, page.value.description, '/vacancies')
 </script>
 
-<template><PageHero :title="simplePages.vacancies[lang].heading" :text="simplePages.vacancies[lang].body" /></template>
+<template>
+  <PageShell v-bind="page" />
+</template>

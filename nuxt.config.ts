@@ -32,12 +32,14 @@ export default defineNuxtConfig({
       viewport: 'width=device-width, initial-scale=1',
       link: [
         { rel: 'icon', href: `${baseURL}favicon.svg` },
+        { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+        { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
         { rel: 'alternate', hreflang: 'bg', href: siteUrl },
         { rel: 'alternate', hreflang: 'en', href: `${siteUrl}/?lang=en` },
         { rel: 'alternate', hreflang: 'x-default', href: siteUrl }
       ],
       meta: [
-        { name: 'theme-color', content: '#101820' },
+        { name: 'theme-color', content: '#080808' },
         { name: 'robots', content: 'index, follow, max-image-preview:large' }
       ]
     }

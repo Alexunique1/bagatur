@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { programs } from '~/data/site'
+import { programs } from '~/data/content'
 
-const { lang } = useLang()
-const page = programs.kids813
-usePageSeo(page, page.path)
+const program = programs.find((item) => item.path === '/kids/8-13')!
+const page = useLocalizedItem(program)
+useLocalizedHead(page.value.title, page.value.description, '/kids/8-13')
 </script>
 
 <template>
-  <div>
-    <PageHero :title="page[lang].heading" :text="page[lang].body" eyebrow="Kids BJJ" />
-    <section class="section bullet-grid">
-      <article v-for="point in page[lang].points" :key="point"><h2>{{ point }}</h2></article>
-    </section>
-    <TrialCta />
-  </div>
+  <PageShell
+    :title="page.title"
+    :description="page.description"
+    :heading="page.heading"
+    :body="page.body"
+    :points="page.points"
+  />
 </template>

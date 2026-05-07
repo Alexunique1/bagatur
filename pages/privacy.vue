@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { simplePages } from '~/data/site'
+import { pageMap } from '~/data/content'
 
-const { lang } = useLang()
-usePageSeo(simplePages.privacy, '/privacy')
+const page = useLocalizedItem(pageMap['/privacy'])
+useLocalizedHead(page.value.title, page.value.description, '/privacy')
 </script>
 
-<template><PageHero :title="simplePages.privacy[lang].heading" :text="simplePages.privacy[lang].body" /></template>
+<template>
+  <PageShell v-bind="page" />
+</template>

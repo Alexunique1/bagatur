@@ -1,19 +1,10 @@
 <script setup lang="ts">
-import { simplePages } from '~/data/site'
+import { pageMap } from '~/data/content'
 
-const { lang } = useLang()
-usePageSeo(simplePages.schedule, '/schedule')
+const page = useLocalizedItem(pageMap['/schedule'])
+useLocalizedHead(page.value.title, page.value.description, '/schedule')
 </script>
 
 <template>
-  <div>
-    <PageHero :title="simplePages.schedule[lang].heading" :text="simplePages.schedule[lang].body" eyebrow="Schedule" />
-    <section class="section schedule-preview">
-      <div class="schedule-grid wide">
-        <span>4-7</span>
-        <span>8-13</span>
-        <span>{{ lang === 'bg' ? 'Възрастна група' : 'Adult group' }}</span>
-      </div>
-    </section>
-  </div>
+  <PageShell v-bind="page" />
 </template>

@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { simplePages } from '~/data/site'
+import { pageMap } from '~/data/content'
 
-const { lang } = useLang()
-usePageSeo(simplePages.calendar, '/events/calendar')
+const page = useLocalizedItem(pageMap['/events/calendar'])
+useLocalizedHead(page.value.title, page.value.description, '/events/calendar')
 </script>
 
 <template>
-  <PageHero :title="simplePages.calendar[lang].heading" :text="simplePages.calendar[lang].body" eyebrow="Events" />
+  <PageShell v-bind="page" />
 </template>

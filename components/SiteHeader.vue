@@ -1,40 +1,68 @@
 <script setup lang="ts">
-import { navItems, phone, phoneLabel, ui } from '~/data/site'
+import { phone, phoneLabel } from '~/data/content'
 
-const { lang } = useLang()
 const open = ref(false)
+const { locale } = useLocale()
 
-watch(() => useRoute().fullPath, () => {
-  open.value = false
-})
+const labels = {
+  bg: {
+    programs: 'PROGRAMS',
+    schedule: 'SCHEDULE',
+    instructors: 'INSTRUCTORS',
+    location: 'LOCATION',
+    login: 'LOGIN',
+    menu: 'Menu'
+  },
+  en: {
+    programs: 'PROGRAMS',
+    schedule: 'SCHEDULE',
+    instructors: 'INSTRUCTORS',
+    location: 'LOCATION',
+    login: 'LOGIN',
+    menu: 'Menu'
+  },
+  ru: {
+    programs: 'ПРОГРАММЫ',
+    schedule: 'РАСПИСАНИЕ',
+    instructors: 'ТРЕНЕРЫ',
+    location: 'ЛОКАЦИЯ',
+    login: 'ВХОД',
+    menu: 'Меню'
+  }
+} as const
+
+const t = computed(() => labels[locale.value])
+const items = computed(() => [
+  { label: t.value.programs, href: '#programs' },
+  { label: t.value.schedule, href: '#schedule' },
+  { label: t.value.instructors, href: '#instructors' },
+  { label: t.value.location, href: '#location' }
+])
 </script>
 
 <template>
-  <header class="site-header">
-    <LogoStub />
-    <div class="header-actions">
-      <LanguageSwitch />
-      <a class="phone-link" :href="`tel:${phone}`">
-        <span aria-hidden="true">☎</span>
-        <span>{{ phoneLabel }}</span>
-      </a>
-      <button
-        class="menu-toggle"
-        type="button"
-        :aria-expanded="open"
-        aria-controls="main-navigation"
-        :aria-label="open ? ui[lang].close : ui[lang].menu"
-        @click="open = !open"
-      >
-        <span />
-        <span />
-        <span />
-      </button>
+  <header class="stitch-header">
+    <div class="stitch-header__inner">
+      <NuxtLink class="stitch-logo" to="/">BAGATUR BJJ</NuxtLink>
+
+      <nav class="stitch-nav" aria-label="Primary navigation">
+        <a v-for="item in items" :key="item.href" :href="item.href">{{ item.label }}</a>
+      </nav>
+
+      <div class="stitch-header__actions">
+        <a class="stitch-phone" :href="`tel:${phone}`">{{ phoneLabel }}</a>
+        <LanguageToggle />
+        <a class="stitch-login" href="#trial">{{ t.login }}</a>
+        <button class="stitch-menu" type="button" :aria-label="t.menu" :aria-expanded="open" @click="open = !open">
+          <span />
+          <span />
+          <span />
+        </button>
+      </div>
     </div>
-    <nav id="main-navigation" class="main-nav" :class="{ open }">
-      <NuxtLink v-for="item in navItems" :key="item.to" :to="item.to">
-        {{ ui[lang].nav[item.key as keyof typeof ui.bg.nav] }}
-      </NuxtLink>
+
+    <nav class="stitch-mobile-nav" :class="{ open }" aria-label="Mobile navigation">
+      <a v-for="item in items" :key="item.href" :href="item.href" @click="open = false">{{ item.label }}</a>
     </nav>
   </header>
 </template>
