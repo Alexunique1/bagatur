@@ -32,6 +32,7 @@ export const nav = [
   { path: '/about', key: 'about' },
   { path: '/methodology', key: 'methodology' },
   { path: '/mentors', key: 'mentors' },
+  { path: '/blog', key: 'blog' },
   { path: '/kids/4-7', key: 'kids47' },
   { path: '/kids/8-13', key: 'kids813' },
   { path: '/adults/bjj', key: 'adultBjj' },

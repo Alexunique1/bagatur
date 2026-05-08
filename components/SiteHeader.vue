@@ -37,12 +37,19 @@ const labels = {
   }
 } as const
 
+const blogLabels = {
+  bg: 'БЛОГ',
+  en: 'BLOG',
+  ru: 'БЛОГ'
+} as const
+
 const t = computed(() => labels[locale.value])
 const items = computed(() => [
-  { label: t.value.programs, href: '#programs' },
-  { label: t.value.schedule, href: '#schedule' },
-  { label: t.value.instructors, href: '#instructors' },
-  { label: t.value.location, href: '#location' }
+  { label: t.value.programs, to: { path: '/', hash: '#programs' } },
+  { label: t.value.schedule, to: { path: '/', hash: '#schedule' } },
+  { label: t.value.instructors, to: { path: '/', hash: '#instructors' } },
+  { label: blogLabels[locale.value], to: '/blog' },
+  { label: t.value.location, to: { path: '/', hash: '#location' } }
 ])
 </script>
 
@@ -52,7 +59,7 @@ const items = computed(() => [
       <NuxtLink class="stitch-logo" to="/">BAGATUR BJJ</NuxtLink>
 
       <nav class="stitch-nav" :aria-label="t.navLabel">
-        <a v-for="item in items" :key="item.href" :href="item.href">{{ item.label }}</a>
+        <NuxtLink v-for="item in items" :key="item.label" :to="item.to">{{ item.label }}</NuxtLink>
       </nav>
 
       <div class="stitch-header__actions">
@@ -68,7 +75,7 @@ const items = computed(() => [
     </div>
 
     <nav class="stitch-mobile-nav" :class="{ open }" :aria-label="t.mobileNavLabel">
-      <a v-for="item in items" :key="item.href" :href="item.href" @click="open = false">{{ item.label }}</a>
+      <NuxtLink v-for="item in items" :key="item.label" :to="item.to" @click="open = false">{{ item.label }}</NuxtLink>
     </nav>
   </header>
 </template>
