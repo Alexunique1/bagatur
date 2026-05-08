@@ -388,7 +388,8 @@ input {
 }
 
 .mission-text {
-  max-width: 768px;
+  width: 100%;
+  max-width: none;
   margin: 0 0 48px;
   color: #1f2937;
   font-size: 18px;
