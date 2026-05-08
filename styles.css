@@ -26,6 +26,10 @@ html {
   background: var(--background);
 }
 
+[id] {
+  scroll-margin-top: 104px;
+}
+
 body {
   margin: 0;
   padding-top: 80px;
@@ -964,6 +968,10 @@ input {
 }
 
 @media (max-width: 560px) {
+  [id] {
+    scroll-margin-top: 88px;
+  }
+
   body {
     padding-top: 72px;
   }
