@@ -1,0 +1,1 @@
+import{_ as a}from"./CiyOxQ53.js";import{u as t,a as s,p as r}from"./i_rQ9Gkd.js";import{f as n,g as p,n as m,h as c,u as l,o as i}from"./DYlmSVzI.js";import"./BEoLosen.js";const y=n({__name:"methodology",setup(u){const e=t(r["/methodology"]);return s(e.value.title,e.value.description,"/methodology"),(_,d)=>{const o=a;return i(),p(o,m(c(l(e))),null,16)}}});export{y as default};

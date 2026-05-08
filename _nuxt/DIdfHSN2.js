@@ -1,0 +1,1 @@
+import{_ as o}from"./CiyOxQ53.js";import{u as r,a as s,p}from"./i_rQ9Gkd.js";import{f as t,g as c,n,h as i,u as m,o as l}from"./DYlmSVzI.js";import"./BEoLosen.js";const y=t({__name:"privacy",setup(u){const a=r(p["/privacy"]);return s(a.value.title,a.value.description,"/privacy"),(_,f)=>{const e=o;return l(),c(e,n(i(m(a))),null,16)}}});export{y as default};
