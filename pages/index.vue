@@ -152,6 +152,7 @@ const copy: Record<Locale, {
 }
 
 const t = computed(() => copy[locale.value])
+const config = useRuntimeConfig()
 
 useHead({
   title: () => t.value.metaTitle,
@@ -169,7 +170,7 @@ useHead({
         '@context': 'https://schema.org',
         '@type': 'SportsActivityLocation',
         name: 'Bagatur BJJ Burgas',
-        url: useRuntimeConfig().public.siteUrl,
+        url: config.public.siteUrl,
         telephone: '+359877069665',
         sport: ['Brazilian Jiu-Jitsu', 'Functional training'],
         address: {
