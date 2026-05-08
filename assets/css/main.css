@@ -798,6 +798,7 @@ input {
   color: var(--surface-variant);
 }
 
+.trial-form .btn-primary,
 .trial-form .btn-outline {
   width: 100%;
   cursor: pointer;

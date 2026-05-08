@@ -314,7 +314,7 @@ const image = {
           <form class="trial-form">
             <input :placeholder="t.namePlaceholder" type="text">
             <input :placeholder="t.emailPlaceholder" type="email">
-            <button class="btn-outline" type="submit">{{ t.trialButton }}</button>
+            <button class="btn-primary" type="submit">{{ t.trialButton }}</button>
           </form>
         </div>
       </div>
