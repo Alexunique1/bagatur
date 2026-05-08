@@ -1,0 +1,1 @@
+import{_ as o}from"./C6RfM3wE.js";import{u as s,a as t,p as r}from"./C5VwujHp.js";import{f as n,g as p,n as m,h as c,u as i,o as l}from"./BTs3TfF1.js";import"./2wwqPzpc.js";const z=n({__name:"mentors",setup(u){const e=s(r["/mentors"]);return t(e.value.title,e.value.description,"/mentors"),(_,f)=>{const a=o;return l(),p(a,m(c(i(e))),null,16)}}});export{z as default};
