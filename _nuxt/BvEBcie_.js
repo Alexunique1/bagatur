@@ -1,0 +1,1 @@
+import{_ as o}from"./D2920UB6.js";import{u as s,a as t,p as r}from"./B5LKK5X_.js";import{f as n,g as p,n as m,h as c,u as i,o as l}from"./CTBH9xRR.js";import"./DTHX6wIW.js";const z=n({__name:"terms",setup(u){const e=s(r["/terms"]);return t(e.value.title,e.value.description,"/terms"),(_,f)=>{const a=o;return l(),p(a,m(c(i(e))),null,16)}}});export{z as default};

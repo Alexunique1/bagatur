@@ -1,0 +1,1 @@
+import{_ as o}from"./D2920UB6.js";import{u as t,p as s,a as r}from"./B5LKK5X_.js";import{f as n,o as p,g as c,n as u,h as i,u as m}from"./CTBH9xRR.js";import"./DTHX6wIW.js";const v=n({__name:"about",setup(l){const a=t(s["/about"]);return r(a.value.title,a.value.description,"/about"),(_,f)=>{const e=o;return p(),c(e,u(i(m(a))),null,16)}}});export{v as default};
