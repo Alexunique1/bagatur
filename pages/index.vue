@@ -152,6 +152,7 @@ const copy: Record<Locale, {
 }
 
 const t = computed(() => copy[locale.value])
+const trialCtaLabel = 'Записаться на пробную тренировку'
 const config = useRuntimeConfig()
 
 useHead({
@@ -204,8 +205,7 @@ const image = {
           <h1 class="stitch-h1">{{ t.heroTitle }}</h1>
           <p class="stitch-lead">{{ t.heroText }}</p>
           <div class="stitch-actions">
-            <a class="btn-primary" href="#trial">{{ t.primaryCta }} <span aria-hidden="true">-></span></a>
-            <a class="btn-outline" href="#trial">{{ t.secondaryCta }}</a>
+            <a class="btn-primary" href="#trial">{{ trialCtaLabel }}</a>
           </div>
         </div>
       </div>
@@ -310,7 +310,7 @@ const image = {
           <form class="trial-form">
             <input :placeholder="t.namePlaceholder" type="text">
             <input :placeholder="t.emailPlaceholder" type="email">
-            <button class="btn-primary" type="submit">{{ t.trialButton }}</button>
+            <button class="btn-outline" type="submit">{{ t.trialButton }}</button>
           </form>
         </div>
       </div>
