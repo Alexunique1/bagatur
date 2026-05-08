@@ -3,22 +3,25 @@ const { locale } = useLocale()
 
 const copy = {
   bg: {
-    privacy: 'PRIVACY POLICY',
-    terms: 'TERMS OF SERVICE',
-    rules: 'MEMBERSHIP RULES',
-    rights: 'ALL RIGHTS RESERVED'
+    privacy: 'ПОЛИТИКА ЗА ПОВЕРИТЕЛНОСТ',
+    terms: 'ПОТРЕБИТЕЛСКО СПОРАЗУМЕНИЕ',
+    rules: 'ПРАВИЛА ЗА АБОНАМЕНТ',
+    rights: 'ВСИЧКИ ПРАВА ЗАПАЗЕНИ',
+    navLabel: 'Навигация в долния колонтитул'
   },
   en: {
     privacy: 'PRIVACY POLICY',
     terms: 'TERMS OF SERVICE',
     rules: 'MEMBERSHIP RULES',
-    rights: 'ALL RIGHTS RESERVED'
+    rights: 'ALL RIGHTS RESERVED',
+    navLabel: 'Footer navigation'
   },
   ru: {
     privacy: 'ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ',
     terms: 'ПОЛЬЗОВАТЕЛЬСКОЕ СОГЛАШЕНИЕ',
     rules: 'ПРАВИЛА АБОНЕМЕНТА',
-    rights: 'ВСЕ ПРАВА ЗАЩИЩЕНЫ'
+    rights: 'ВСЕ ПРАВА ЗАЩИЩЕНЫ',
+    navLabel: 'Навигация в подвале'
   }
 } as const
 
@@ -29,7 +32,7 @@ const t = computed(() => copy[locale.value])
   <footer class="stitch-footer">
     <div class="stitch-footer__inner">
       <div class="stitch-footer__brand">BAGATUR BJJ BURGAS</div>
-      <nav class="stitch-footer__nav" aria-label="Footer navigation">
+      <nav class="stitch-footer__nav" :aria-label="t.navLabel">
         <NuxtLink to="/privacy">{{ t.privacy }}</NuxtLink>
         <NuxtLink to="/terms">{{ t.terms }}</NuxtLink>
         <NuxtLink to="/offer">{{ t.rules }}</NuxtLink>

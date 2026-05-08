@@ -6,12 +6,14 @@ const { locale } = useLocale()
 
 const labels = {
   bg: {
-    programs: 'PROGRAMS',
-    schedule: 'SCHEDULE',
-    instructors: 'INSTRUCTORS',
-    location: 'LOCATION',
-    login: 'LOGIN',
-    menu: 'Menu'
+    programs: 'ПРОГРАМИ',
+    schedule: 'РАЗПИСАНИЕ',
+    instructors: 'ТРЕНЬОРИ',
+    location: 'ЛОКАЦИЯ',
+    login: 'ЗАПИСВАНЕ',
+    menu: 'Меню',
+    navLabel: 'Основна навигация',
+    mobileNavLabel: 'Мобилна навигация'
   },
   en: {
     programs: 'PROGRAMS',
@@ -19,7 +21,9 @@ const labels = {
     instructors: 'INSTRUCTORS',
     location: 'LOCATION',
     login: 'LOGIN',
-    menu: 'Menu'
+    menu: 'Menu',
+    navLabel: 'Primary navigation',
+    mobileNavLabel: 'Mobile navigation'
   },
   ru: {
     programs: 'ПРОГРАММЫ',
@@ -27,7 +31,9 @@ const labels = {
     instructors: 'ТРЕНЕРЫ',
     location: 'ЛОКАЦИЯ',
     login: 'ВХОД',
-    menu: 'Меню'
+    menu: 'Меню',
+    navLabel: 'Основная навигация',
+    mobileNavLabel: 'Мобильная навигация'
   }
 } as const
 
@@ -45,7 +51,7 @@ const items = computed(() => [
     <div class="stitch-header__inner">
       <NuxtLink class="stitch-logo" to="/">BAGATUR BJJ</NuxtLink>
 
-      <nav class="stitch-nav" aria-label="Primary navigation">
+      <nav class="stitch-nav" :aria-label="t.navLabel">
         <a v-for="item in items" :key="item.href" :href="item.href">{{ item.label }}</a>
       </nav>
 
@@ -61,7 +67,7 @@ const items = computed(() => [
       </div>
     </div>
 
-    <nav class="stitch-mobile-nav" :class="{ open }" aria-label="Mobile navigation">
+    <nav class="stitch-mobile-nav" :class="{ open }" :aria-label="t.mobileNavLabel">
       <a v-for="item in items" :key="item.href" :href="item.href" @click="open = false">{{ item.label }}</a>
     </nav>
   </header>

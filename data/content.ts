@@ -91,6 +91,29 @@ export const ui = {
       offer: 'Public offer',
       terms: 'Terms'
     }
+  },
+  ru: {
+    brand: 'Багатур',
+    subBrand: 'BJJ Burgas',
+    menu: 'Меню',
+    close: 'Закрыть',
+    call: 'Позвонить',
+    trial: 'Пробная тренировка',
+    mapSoon: 'Карта и точный адрес будут добавлены скоро.',
+    emailSoon: 'Электронная почта будет добавлена скоро.',
+    nav: {
+      about: 'Проект',
+      methodology: 'Методология',
+      mentors: 'Наставники',
+      kids47: '4-7 лет',
+      kids813: '8-13 лет',
+      adultBjj: 'BJJ для взрослых',
+      schedule: 'Расписание',
+      vacancies: 'Вакансии',
+      privacy: 'Конфиденциальность',
+      offer: 'Публичная оферта',
+      terms: 'Соглашение'
+    }
   }
 } as const
 
@@ -101,12 +124,12 @@ export const home = {
     slides: [
       {
         kicker: 'Нова академия в Бургас',
-        title: 'Багатур BJJ Academy',
+        title: 'Багатур BJJ Академия',
         text: 'Джиу-джицу, дисциплина и увереност за деца и възрастни.',
         cta: 'Запиши пробна тренировка'
       },
       {
-        kicker: 'BJJ · EQ · Soft Skills',
+        kicker: 'BJJ · EQ · меки умения',
         title: 'Спорт като система за развитие',
         text: 'Техника, емоционална устойчивост, работа в екип и спокойствие под напрежение.',
         cta: 'Виж методологията'
@@ -146,6 +169,32 @@ export const home = {
     scheduleText: 'The exact weekly schedule will be added after groups are finalized. Planned groups: ages 4-7, ages 8-13 and adults.',
     trialTitle: 'Trial class',
     trialText: 'Step on the mats, meet the coach and see how BJJ builds discipline, self-defense and calm.'
+  },
+  ru: {
+    title: 'Бразильское джиу-джитсу в Бургасе',
+    description: 'Багатур - новая академия BJJ в Бургасе для детей 4-7, 8-13 лет и взрослых.',
+    slides: [
+      {
+        kicker: 'Новая академия в Бургасе',
+        title: 'Багатур BJJ Академия',
+        text: 'Джиу-джитсу, дисциплина и уверенность для детей и взрослых.',
+        cta: 'Записаться на пробную тренировку'
+      },
+      {
+        kicker: 'BJJ · EQ · мягкие навыки',
+        title: 'Спорт как система развития',
+        text: 'Техника, эмоциональная устойчивость, командная работа и спокойствие под давлением.',
+        cta: 'Посмотреть методологию'
+      }
+    ],
+    missionTitle: 'Миссия',
+    missionText: 'Багатур создает среду, где бразильское джиу-джитсу больше, чем тренировка. Это практичная система дисциплины, уважения, ответственности и уверенного контакта с вызовами.',
+    skills: ['Ответственность', 'Целеустремленность', 'Стрессоустойчивость', 'Самоорганизация', 'Эмоциональная гибкость', 'Командная работа', 'Эффективная коммуникация', 'Критическое мышление'],
+    programsTitle: 'Программы',
+    scheduleTitle: 'Расписание',
+    scheduleText: 'Точная недельная сетка будет добавлена после финализации групп. Планируются группы 4-7 лет, 8-13 лет и взрослые.',
+    trialTitle: 'Пробная тренировка',
+    trialText: 'Выйдите на татами, познакомьтесь с тренером и посмотрите, как BJJ развивает дисциплину, самозащиту и спокойствие.'
   }
 } as const
 
@@ -167,6 +216,13 @@ export const programs = [
       heading: 'First steps through play',
       body: 'Training develops balance, coordination, listening, emotional control and respect for partners. Technique is taught through clear, safe and playful tasks.',
       points: ['mat movement', 'rules and discipline', 'emotional self-regulation', 'confident partner contact']
+    },
+    ru: {
+      title: 'Дети 4-7 лет',
+      description: 'Основы джиу-джитсу, дисциплина, движение и эмоциональный интеллект.',
+      heading: 'Первые шаги через игру',
+      body: 'Тренировки развивают баланс, координацию, умение слушать, контроль эмоций и уважение к партнеру. Техника подается через понятные, безопасные и игровые задания.',
+      points: ['движение на татами', 'правила и дисциплина', 'эмоциональная саморегуляция', 'уверенный контакт с партнером']
     }
   },
   {
@@ -186,6 +242,13 @@ export const programs = [
       heading: 'More technique and responsibility',
       body: 'The group follows a clearer technical program, situational tasks and controlled sparring. Children learn to set goals, lose with dignity and win with respect.',
       points: ['positional play', 'personal goals', 'teamwork', 'preparation for meets and tournaments']
+    },
+    ru: {
+      title: 'Дети 8-13 лет',
+      description: 'Продвинутые тренировки, социализация, самозащита и подготовка к событиям.',
+      heading: 'Больше техники и ответственности',
+      body: 'Группа работает с более четкой технической программой, ситуационными заданиями и контролируемой борьбой. Дети учатся ставить цели, достойно проигрывать и побеждать с уважением.',
+      points: ['позиционная игра', 'личные цели', 'работа в команде', 'подготовка к встречам и турнирам']
     }
   },
   {
@@ -205,6 +268,13 @@ export const programs = [
       heading: 'Calm under pressure',
       body: 'BJJ teaches how to use position, leverage and movement instead of brute strength. It works for beginners, experienced athletes and anyone seeking practical self-defense.',
       points: ['beginner foundations', 'positional control', 'safe sparring', 'self-defense and conditioning']
+    },
+    ru: {
+      title: 'Бразильское джиу-джитсу для взрослых',
+      description: 'Техника, контроль, самозащита и физическая устойчивость.',
+      heading: 'Спокойствие под давлением',
+      body: 'BJJ учит использовать позицию, рычаги и движение вместо грубой силы. Подходит начинающим, людям со спортивным опытом и всем, кто ищет практичную самозащиту.',
+      points: ['основы для начинающих', 'позиционный контроль', 'безопасный спарринг', 'самозащита и кондиция']
     }
   },
   {
@@ -224,6 +294,13 @@ export const programs = [
       heading: 'A physical base for better movement',
       body: 'Functional training supports BJJ through mobility, strength, stability and endurance. It also works as a standalone program.',
       points: ['mobility', 'strength endurance', 'injury prevention', 'individual progress']
+    },
+    ru: {
+      title: 'Функциональный тренинг',
+      description: 'Сила, мобильность, стабильность и профилактика травм.',
+      heading: 'Физическая база для лучшего движения',
+      body: 'Функциональный тренинг поддерживает BJJ через мобильность, силу, стабильность и выносливость. Он подходит и как самостоятельная программа.',
+      points: ['мобильность', 'силовая выносливость', 'профилактика травм', 'индивидуальный прогресс']
     }
   }
 ] as const
@@ -243,6 +320,13 @@ export const pages = {
       heading: 'Character, respect and systematic growth',
       body: 'Bagatur is an academy for kids and adults where sport is used as a tool for personal development. The goal is to build technique, confidence, discipline and calm action.',
       points: ['respect for partners', 'consistency', 'safe environment', 'strong community']
+    },
+    ru: {
+      title: 'О проекте и миссии',
+      description: 'Философия, ценности и цели академии Багатур в Бургасе.',
+      heading: 'Характер, уважение и системное развитие',
+      body: 'Багатур - академия для детей и взрослых, где спорт используется как инструмент личностного развития. Цель - помогать ученикам развивать технику, уверенность, дисциплину и умение действовать спокойно.',
+      points: ['уважение к партнеру', 'последовательность', 'безопасная среда', 'сильное сообщество']
     }
   },
   methodology: {
@@ -259,6 +343,13 @@ export const pages = {
       heading: 'A method with clear structure',
       body: 'Each class combines movement, technique, situational tasks and controlled practice. Kids add play-based blocks, emotional intelligence and group skills.',
       points: ['warm-up and coordination', 'technical block', 'controlled sparring', 'reflection and goal']
+    },
+    ru: {
+      title: 'Программа развития',
+      description: 'Методика тренировок: техника, игра, EQ, наставничество и контролируемая борьба.',
+      heading: 'Методика с понятной структурой',
+      body: 'Каждая тренировка объединяет движение, технику, ситуационные задания и контролируемую практику. Для детей добавляются игровые блоки, эмоциональный интеллект и навыки работы в группе.',
+      points: ['разминка и координация', 'технический блок', 'контролируемая борьба', 'рефлексия и цель']
     }
   },
   mentors: {
@@ -275,6 +366,13 @@ export const pages = {
       heading: 'The coach as a mentor',
       body: 'Coach photo, name, belt and biography will be added later. For now this section is prepared as a clean placeholder.',
       points: ['coach photo soon', 'biography soon', 'sports background soon']
+    },
+    ru: {
+      title: 'Наставники',
+      description: 'Информация о тренерском составе Багатур.',
+      heading: 'Тренер как наставник',
+      body: 'Фото тренера, имя, пояс и биография будут добавлены позже. Пока раздел подготовлен как чистая заготовка под реальное содержание.',
+      points: ['фото тренера скоро', 'биография скоро', 'спортивный опыт скоро']
     }
   },
   blog: {
@@ -291,6 +389,13 @@ export const pages = {
       heading: 'Articles, news and useful materials',
       body: 'Here we will publish materials about first classes, child development through BJJ, tournament preparation, camps and club news.',
       points: ['academy news', 'useful articles', 'stories from the mats']
+    },
+    ru: {
+      title: 'Наш блог',
+      description: 'Статьи и новости академии.',
+      heading: 'Статьи, новости и полезные материалы',
+      body: 'Здесь мы будем публиковать материалы о первой тренировке, развитии детей через BJJ, подготовке к турнирам, лагерях и клубных новостях.',
+      points: ['новости академии', 'полезные статьи', 'истории с татами']
     }
   },
   calendar: {
@@ -307,6 +412,13 @@ export const pages = {
       heading: 'Competitions, meetings and club days',
       body: 'The calendar will be filled with tournaments, open classes, parent meetings and internal technical days.',
       points: ['tournaments', 'open classes', 'club meetings']
+    },
+    ru: {
+      title: 'Календарь мероприятий',
+      description: 'График турниров, встреч и клубных событий.',
+      heading: 'Соревнования, встречи и клубные дни',
+      body: 'Календарь будет заполнен турнирами, открытыми тренировками, встречами с родителями и внутренними техническими днями.',
+      points: ['турниры', 'открытые тренировки', 'клубные встречи']
     }
   },
   camp: {
@@ -323,6 +435,13 @@ export const pages = {
       heading: 'Camps for sport, character and teamwork',
       body: 'GYMNASIUM CAMP combines training, games, teamwork and personal challenges. The format will be adapted for Bagatur groups in Burgas.',
       points: ['sport', 'teamwork', 'personal challenges']
+    },
+    ru: {
+      title: 'GYMNASIUM CAMP',
+      description: 'Спортивно-развивающие лагеря для детей и подростков.',
+      heading: 'Лагеря для спорта, характера и командности',
+      body: 'GYMNASIUM CAMP объединяет тренировки, игры, командную работу и личные вызовы. Формат будет адаптирован для групп Багатур в Бургасе.',
+      points: ['спорт', 'командность', 'личные вызовы']
     }
   },
   schedule: {
@@ -339,6 +458,13 @@ export const pages = {
       heading: 'Weekly schedule',
       body: 'The schedule will be added separately. Planned groups are kids 4-7, kids 8-13 and adults. Trial class is available.',
       points: ['ages 4-7', 'ages 8-13', 'adults']
+    },
+    ru: {
+      title: 'Расписание',
+      description: 'Общая недельная сетка для групп Багатур.',
+      heading: 'Недельная сетка',
+      body: 'Расписание будет добавлено отдельно. Планируются группы для детей 4-7 лет, детей 8-13 лет и взрослых. Пробная тренировка доступна.',
+      points: ['4-7 лет', '8-13 лет', 'взрослые']
     }
   },
   vacancies: {
@@ -355,6 +481,13 @@ export const pages = {
       heading: 'Work with the team',
       body: 'This section is prepared as a placeholder. Current roles and application details will be added later.',
       points: ['coaches', 'assistants', 'administration']
+    },
+    ru: {
+      title: 'Вакансии',
+      description: 'Работа в команде Багатур.',
+      heading: 'Работа в команде',
+      body: 'Раздел подготовлен как заготовка. Актуальные позиции и условия подачи заявки будут добавлены позже.',
+      points: ['тренеры', 'ассистенты', 'администрация']
     }
   },
   privacy: {
@@ -371,6 +504,13 @@ export const pages = {
       heading: 'Privacy policy',
       body: 'The legal text will be added later. For now this page acts as a technical placeholder.',
       points: ['personal data', 'contacts', 'user rights']
+    },
+    ru: {
+      title: 'Политика конфиденциальности',
+      description: 'Заготовка для политики конфиденциальности.',
+      heading: 'Политика конфиденциальности',
+      body: 'Юридический текст будет добавлен позже. Пока страница служит технической заготовкой.',
+      points: ['личные данные', 'контакты', 'права пользователя']
     }
   },
   offer: {
@@ -387,6 +527,13 @@ export const pages = {
       heading: 'Public offer',
       body: 'Service, payment and membership terms will be added after the legal text is prepared.',
       points: ['services', 'payments', 'memberships']
+    },
+    ru: {
+      title: 'Публичная оферта',
+      description: 'Заготовка для публичной оферты.',
+      heading: 'Публичная оферта',
+      body: 'Условия услуг, оплат и абонементов будут добавлены после подготовки юридического текста.',
+      points: ['услуги', 'оплаты', 'абонементы']
     }
   },
   terms: {
@@ -403,6 +550,13 @@ export const pages = {
       heading: 'Terms of use',
       body: 'Rules for using the website and attending training sessions will be added later.',
       points: ['website', 'classes', 'rules']
+    },
+    ru: {
+      title: 'Пользовательское соглашение',
+      description: 'Заготовка для пользовательского соглашения.',
+      heading: 'Пользовательское соглашение',
+      body: 'Правила использования сайта и посещения тренировок будут добавлены позже.',
+      points: ['сайт', 'тренировки', 'правила']
     }
   }
 } as const

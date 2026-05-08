@@ -1,12 +1,50 @@
 <script setup lang="ts">
 import { locales } from '~/data/content'
+import type { Locale } from '~/data/content'
 
-const { locale, setLocale } = useLocale()
+const route = useRoute()
+const { locale } = useLocale()
 const menu = ref<HTMLDetailsElement | null>(null)
 const current = computed(() => locales.find((item) => item.code === locale.value) || locales[0])
 
-const chooseLocale = async (code: typeof locales[number]['code']) => {
-  await setLocale(code)
+const labels = {
+  bg: 'Избор на език',
+  en: 'Language selector',
+  ru: 'Выбор языка'
+} as const
+
+const languageLabel = computed(() => labels[locale.value])
+
+const localeHref = (code: Locale) => {
+  const query = new URLSearchParams()
+
+  for (const [key, value] of Object.entries(route.query)) {
+    if (key === 'lang') {
+      continue
+    }
+
+    if (Array.isArray(value)) {
+      value.forEach((item) => {
+        if (item) {
+          query.append(key, item)
+        }
+      })
+    } else if (value) {
+      query.set(key, value)
+    }
+  }
+
+  query.set('lang', code)
+  return `${route.path}?${query.toString()}`
+}
+
+const rememberLocale = (code: Locale) => {
+  locale.value = code
+  if (import.meta.client) {
+    localStorage.setItem('bagatur-locale', code)
+    document.documentElement.lang = code
+  }
+
   if (menu.value) {
     menu.value.open = false
   }
@@ -17,7 +55,7 @@ const chooseLocale = async (code: typeof locales[number]['code']) => {
   <details ref="menu" class="language-menu">
     <summary
       class="language-menu__trigger"
-      aria-label="Language selector"
+      :aria-label="languageLabel"
     >
       <span class="language-menu__label">{{ current.label }}</span>
       <span class="language-menu__icon" aria-hidden="true">
@@ -28,17 +66,17 @@ const chooseLocale = async (code: typeof locales[number]['code']) => {
     </summary>
 
     <div class="language-menu__list">
-      <button
+      <a
         v-for="item in locales"
         :key="item.code"
         class="language-menu__item"
         :class="{ active: locale === item.code }"
-        type="button"
+        :href="localeHref(item.code)"
         :aria-pressed="locale === item.code"
-        @click="chooseLocale(item.code)"
+        @click="rememberLocale(item.code)"
       >
         {{ item.label }}
-      </button>
+      </a>
     </div>
   </details>
 </template>

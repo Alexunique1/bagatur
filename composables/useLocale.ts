@@ -32,6 +32,19 @@ export const useLocale = () => {
     document.documentElement.lang = locale.value
   })
 
+  watch(
+    () => route.query.lang,
+    (value) => {
+      if (isLocale(value)) {
+        locale.value = value
+        if (import.meta.client) {
+          localStorage.setItem('bagatur-locale', value)
+          document.documentElement.lang = value
+        }
+      }
+    }
+  )
+
   return { locale, setLocale }
 }
 
