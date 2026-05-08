@@ -152,7 +152,6 @@ const copy: Record<Locale, {
 }
 
 const t = computed(() => copy[locale.value])
-const trialCtaLabel = 'Записаться на пробную тренировку'
 const config = useRuntimeConfig()
 const assetPath = (path: string) => {
   const baseURL = config.app.baseURL.endsWith('/') ? config.app.baseURL : `${config.app.baseURL}/`
@@ -209,7 +208,7 @@ const image = {
           <h1 class="stitch-h1">{{ t.heroTitle }}</h1>
           <p class="stitch-lead">{{ t.heroText }}</p>
           <div class="stitch-actions">
-            <a class="btn-primary" href="#trial">{{ trialCtaLabel }}</a>
+            <a class="btn-primary" href="#trial">{{ t.trialButton }}</a>
           </div>
         </div>
       </div>
