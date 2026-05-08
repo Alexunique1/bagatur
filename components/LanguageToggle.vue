@@ -3,6 +3,7 @@ import { locales } from '~/data/content'
 import type { Locale } from '~/data/content'
 
 const route = useRoute()
+const config = useRuntimeConfig()
 const { locale } = useLocale()
 const menu = ref<HTMLDetailsElement | null>(null)
 const current = computed(() => locales.find((item) => item.code === locale.value) || locales[0])
@@ -17,6 +18,8 @@ const languageLabel = computed(() => labels[locale.value])
 
 const localeHref = (code: Locale) => {
   const query = new URLSearchParams()
+  const baseURL = config.app.baseURL.endsWith('/') ? config.app.baseURL : `${config.app.baseURL}/`
+  const path = route.path === '/' ? '' : route.path.replace(/^\//, '')
 
   for (const [key, value] of Object.entries(route.query)) {
     if (key === 'lang') {
@@ -35,7 +38,7 @@ const localeHref = (code: Locale) => {
   }
 
   query.set('lang', code)
-  return `${route.path}?${query.toString()}`
+  return `${baseURL}${path}?${query.toString()}`
 }
 
 const rememberLocale = (code: Locale) => {
