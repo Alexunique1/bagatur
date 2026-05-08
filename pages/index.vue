@@ -154,6 +154,10 @@ const copy: Record<Locale, {
 const t = computed(() => copy[locale.value])
 const trialCtaLabel = 'Записаться на пробную тренировку'
 const config = useRuntimeConfig()
+const assetPath = (path: string) => {
+  const baseURL = config.app.baseURL.endsWith('/') ? config.app.baseURL : `${config.app.baseURL}/`
+  return `${baseURL}${path.replace(/^\//, '')}`
+}
 
 useHead({
   title: () => t.value.metaTitle,
@@ -187,7 +191,7 @@ useHead({
 
 const image = {
   hero: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCxnDFQ6KUOsJFSGeOB4DFprGddD4w1Z1BNQgerO9TUiobsIKGFG8QkKtZGTVfMN0qy7jfaMPFJqb18FlpfpsInOTgu06QhVACIlw38Y6LB3SqQuY-3vJssbJfjHQN9NE8G9uP22sURTo7M8qww8lVWPOuUtCWjvMSElSsnuIF7ccDaBRjbwHTVuFM0PAxffggr9ELcVFZ4NOCfqsJGoUEXmR0iYDAqy-857vQC15RdOHRSnH8TP4w2WYHAQaRZTD2i469yxz1q7PAb',
-  mission: '/images/bagatur-mission3.png',
+  mission: assetPath('/images/bagatur-mission3.png'),
   mats: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBdLgZP3tMaj7rTWO_zChYu90dqpQ12MDKGa-iO8QEgYoF2uQgttmEfwZtfUdSdCErYq9aM8OC--TBT9FojiRGcoGpptxTcqwEc6dDmRgWdocPSumuDtTnkVoqxNdnXnzdaHr3uCm4K1ZrMHpLzOm2UWK7JxdyI2IE8_1_5gSiYbQ4FFJxDxGMr46QpMr2V-9Py-qjQM52C5vIvVrBgM5rVEZaGnTJxxFVc-pOE6eMLb4w2PIgD6iuSozxnIGB6n_gJKSqEXMhotTnd',
   grips: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDoRtGpwvS9Jkolvt_ix8uYZGZuOTraglowhGLfat0knLQz2cjrbpeb7oyvaVxbDR8k9vYRBNCIN2HXXMAA64yYtlRQj4GBbdyqr0ZzcDYAqdfYbkKKn6vhpR0dimLS-X44qJ_mdspkj84_1cM_1403eMneXw4uLFR7sqhjQ1bu3nWBttFdlf9Ax7smxuoCjQOHVm8np45Ai08-WVBjodBY2ci6hI4MV2qpRcndtzA53xfMGoz8Zfgci9eAwFeLCGMW9tI2csd2s_YB',
   child: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA1GG04qa_rU358XL-qQ2q3rdlra7pL1TnT564RnET268-W0L-jvkHC7TrD6mSoEWSz3Vg_GHGu0C8q4urUvllPiP049r5irxDV7eKDYYrDdv6LGkas9e93y9XRbxyw5loYHX8qgJeIIzjLWyVBYjVOO00jYQLwWm0dlNJ8KKXJSa2BcS1kOX2u2DqXxHiuyTWdt3-JRPKzX5M9DMf4d2PDswt7L9kFtkzEKLomSg26tkqbxb22phbhD-3ZOvjaU4U5VA44j8xDqTbz'
