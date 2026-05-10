@@ -45,6 +45,15 @@ const blogLabels = {
 
 const t = computed(() => labels[locale.value])
 const logoHome = { path: '/', query: { lang: 'bg' } }
+const rememberBgHome = () => {
+  locale.value = 'bg'
+  open.value = false
+
+  if (import.meta.client) {
+    localStorage.setItem('bagatur-locale', 'bg')
+    document.documentElement.lang = 'bg'
+  }
+}
 const items = computed(() => [
   { label: t.value.programs, to: { path: '/', hash: '#programs' } },
   { label: t.value.schedule, to: { path: '/', hash: '#schedule' } },
@@ -57,7 +66,7 @@ const items = computed(() => [
 <template>
   <header class="stitch-header">
     <div class="stitch-header__inner">
-      <NuxtLink class="stitch-logo" :to="logoHome">BAGATUR BJJ</NuxtLink>
+      <NuxtLink class="stitch-logo" :to="logoHome" @click="rememberBgHome">BAGATUR BJJ</NuxtLink>
 
       <nav class="stitch-nav" :aria-label="t.navLabel">
         <NuxtLink v-for="item in items" :key="item.label" :to="item.to">{{ item.label }}</NuxtLink>
