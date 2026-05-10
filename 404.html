@@ -20,6 +20,17 @@
 <body>
   <div id="__nuxt"></div>
   <script>window.__NUXT__={serverRendered:false,config:{public:{siteUrl:"https://alexunique1.github.io/bagatur"},app:{baseURL:"/bagatur/",buildAssetsDir:"/_nuxt/",cdnURL:""}}}</script>
+  <script>
+    document.addEventListener('click', function (event) {
+      var logo = event.target && event.target.closest && event.target.closest('.stitch-logo')
+      if (!logo) return
+
+      event.preventDefault()
+      localStorage.setItem('bagatur-locale', 'bg')
+      document.documentElement.lang = 'bg'
+      window.location.href = '/bagatur/?lang=bg'
+    }, true)
+  </script>
   <script type="module" src="/bagatur/_nuxt/XOxIFhCP.js"></script>
 </body>
 </html>
