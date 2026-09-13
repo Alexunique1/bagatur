@@ -149,7 +149,10 @@ jobs:
 
           ln -sfn "releases/$release_id" "$remote_base/current"
 
-          if curl -fsS --retry 6 --retry-delay 2 "$site_url/" | grep -q 'Силен характер'; then
+          health_body="$(mktemp)"
+          trap 'rm -f "$health_body"' EXIT
+
+          if curl -fsS --retry 6 --retry-delay 2 -o "$health_body" "$site_url/" && grep -q 'Силен характер' "$health_body"; then
             rm -f "$archive"
             printf 'Activated release %s\n' "$release_id"
           else
@@ -167,9 +170,15 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          curl -fsS --retry 6 --retry-delay 2 "$PROD_SITE_URL/" | grep -q 'Силен характер'
-          curl -fsSI "$PROD_SITE_URL/" | grep -qi '^x-robots-tag: noindex'
-          curl -fsS "$PROD_SITE_URL/gallery/tournaments/" | grep -q 'Турнири и състезания'
+          root_body="$(mktemp)"
+          root_headers="$(mktemp)"
+          tournaments_body="$(mktemp)"
+          trap 'rm -f "$root_body" "$root_headers" "$tournaments_body"' EXIT
+          curl -fsS --retry 6 --retry-delay 2 -D "$root_headers" -o "$root_body" "$PROD_SITE_URL/"
+          grep -q 'Силен характер' "$root_body"
+          grep -qi '^x-robots-tag: noindex' "$root_headers"
+          curl -fsS -o "$tournaments_body" "$PROD_SITE_URL/gallery/tournaments/"
+          grep -q 'Турнири и състезания' "$tournaments_body"
 
       - name: Deployment summary
         shell: bash
