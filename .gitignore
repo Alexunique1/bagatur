@@ -12,3 +12,7 @@ dev-server.err.log
 
 *.local
 *.log
+
+dist/
+.deploy/
+.tmp/

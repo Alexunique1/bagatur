@@ -1,91 +1,79 @@
 <script setup lang="ts">
-import { phone, phoneLabel } from '~/data/content'
+import type { Locale } from '~/data/content'
+import { siteCopy, sitePhone, sitePhoneLabel } from '~/data/site'
 
+const route = useRoute()
+const config = useRuntimeConfig()
+const { locale, setLocale } = useLocale()
 const open = ref(false)
-const { locale } = useLocale()
-
-const labels = {
-  bg: {
-    programs: 'ПРОГРАМИ',
-    schedule: 'РАЗПИСАНИЕ',
-    instructors: 'ТРЕНЬОРИ',
-    location: 'ЛОКАЦИЯ',
-    login: 'ЗАПИСВАНЕ',
-    menu: 'Меню',
-    navLabel: 'Основна навигация',
-    mobileNavLabel: 'Мобилна навигация'
-  },
-  en: {
-    programs: 'PROGRAMS',
-    schedule: 'SCHEDULE',
-    instructors: 'INSTRUCTORS',
-    location: 'LOCATION',
-    login: 'LOGIN',
-    menu: 'Menu',
-    navLabel: 'Primary navigation',
-    mobileNavLabel: 'Mobile navigation'
-  },
-  ru: {
-    programs: 'ПРОГРАММЫ',
-    schedule: 'РАСПИСАНИЕ',
-    instructors: 'ТРЕНЕРЫ',
-    location: 'ЛОКАЦИЯ',
-    login: 'ВХОД',
-    menu: 'Меню',
-    navLabel: 'Основная навигация',
-    mobileNavLabel: 'Мобильная навигация'
-  }
-} as const
-
-const blogLabels = {
-  bg: 'БЛОГ',
-  en: 'BLOG',
-  ru: 'БЛОГ'
-} as const
-
-const t = computed(() => labels[locale.value])
-const logoHome = { path: '/', query: { lang: 'bg' } }
-const rememberBgHome = () => {
-  locale.value = 'bg'
-  open.value = false
-
-  if (import.meta.client) {
-    localStorage.setItem('bagatur-locale', 'bg')
-    document.documentElement.lang = 'bg'
-  }
-}
-const items = computed(() => [
-  { label: t.value.programs, to: { path: '/', hash: '#programs' } },
-  { label: t.value.schedule, to: { path: '/', hash: '#schedule' } },
-  { label: t.value.instructors, to: { path: '/', hash: '#instructors' } },
-  { label: blogLabels[locale.value], to: '/blog' },
-  { label: t.value.location, to: { path: '/', hash: '#location' } }
+const t = computed(() => siteCopy[locale.value])
+const homeHref = computed(() => locale.value === 'bg' ? '/' : `/?lang=${locale.value}`)
+const sectionHref = (hash: string) => route.path === '/' ? hash : `${homeHref.value}${hash}`
+const logoSrc = computed(() => {
+  const base = config.app.baseURL.endsWith('/') ? config.app.baseURL : config.app.baseURL + '/'
+  return base + 'images/bagatur-logo-main.jpg'
+})
+const navItems = computed(() => [
+  { label: t.value.nav.programs, hash: '#programs' },
+  { label: t.value.nav.trainer, hash: '#trainer' },
+  { label: t.value.nav.schedule, hash: '#schedule' },
+  { label: t.value.nav.gallery, hash: '#gallery' },
+  { label: t.value.nav.news, hash: '#news' },
+  { label: t.value.nav.contact, hash: '#contact' }
 ])
+const go = () => { open.value = false }
+const changeLocale = async (code: Locale) => {
+  await setLocale(code)
+  open.value = false
+}
+watch(() => route.fullPath, () => { open.value = false })
 </script>
 
 <template>
-  <header class="stitch-header">
-    <div class="stitch-header__inner">
-      <NuxtLink class="stitch-logo" :to="logoHome" @click="rememberBgHome">BAGATUR BJJ</NuxtLink>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <NuxtLink class="brand" :to="homeHref" aria-label="Bagatur BJJ Burgas">
+        <img :src="logoSrc" alt="">
+        <span><strong>{{ t.brandName }}</strong><small>BJJ · BURGAS</small></span>
+      </NuxtLink>
 
-      <nav class="stitch-nav" :aria-label="t.navLabel">
-        <NuxtLink v-for="item in items" :key="item.label" :to="item.to">{{ item.label }}</NuxtLink>
+      <nav class="desktop-nav" :aria-label="t.nav.home">
+        <a v-for="item in navItems" :key="item.hash" :href="sectionHref(item.hash)">{{ item.label }}</a>
       </nav>
 
-      <div class="stitch-header__actions">
-        <a class="stitch-phone" :href="`tel:${phone}`">{{ phoneLabel }}</a>
-        <LanguageToggle />
-        <a class="stitch-login" href="#trial">{{ t.login }}</a>
-        <button class="stitch-menu" type="button" :aria-label="t.menu" :aria-expanded="open" @click="open = !open">
-          <span />
-          <span />
-          <span />
-        </button>
+      <div class="header-actions">
+        <a class="header-call" :href="'tel:' + sitePhone" :aria-label="t.callAction">
+          <span class="phone-icon" aria-hidden="true">☎</span>
+          <span><small>{{ t.callShort }}</small>{{ sitePhoneLabel }}</span>
+        </a>
+
+        <div class="locale-switch" :aria-label="t.language" role="group">
+          <button
+            v-for="code in (['bg', 'ru', 'en'] as Locale[])"
+            :key="code"
+            type="button"
+            :class="{ active: locale === code }"
+            :aria-pressed="locale === code"
+            @click="changeLocale(code)"
+          >{{ code.toUpperCase() }}</button>
+        </div>
+
+        <button
+          class="burger"
+          type="button"
+          :aria-label="open ? t.closeMenu : t.menu"
+          :aria-expanded="open"
+          aria-controls="mobile-navigation"
+          @click="open = !open"
+        ><span /><span /><span /></button>
       </div>
     </div>
 
-    <nav class="stitch-mobile-nav" :class="{ open }" :aria-label="t.mobileNavLabel">
-      <NuxtLink v-for="item in items" :key="item.label" :to="item.to" @click="open = false">{{ item.label }}</NuxtLink>
-    </nav>
+    <div id="mobile-navigation" class="mobile-menu" :class="{ open }">
+      <nav :aria-label="t.nav.home">
+        <a v-for="item in navItems" :key="item.hash" :href="sectionHref(item.hash)" @click="go">{{ item.label }}</a>
+      </nav>
+      <a class="mobile-call" :href="'tel:' + sitePhone">{{ t.callAction }} · {{ sitePhoneLabel }}</a>
+    </div>
   </header>
 </template>

@@ -1,7 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /admin
 
 Sitemap: https://bagatur-bjj.bg/sitemap.xml
-Sitemap: https://alexunique1.github.io/bagatur/sitemap.xml
-
-AI-context: https://alexunique1.github.io/bagatur/api/ai-context
