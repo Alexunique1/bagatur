@@ -1,0 +1,60 @@
+#!/bin/sh
+set -eu
+umask 077
+
+incoming=/var/www/bagatur/incoming/cms-migrations.tar.gz
+checksum_file=/var/www/bagatur/incoming/cms-migrations.sha256
+releases=/opt/bagatur-pocketbase/migration-releases
+current=/opt/bagatur-pocketbase/current-migrations
+
+[ -f "$incoming" ] || { echo 'CMS migration archive is missing.' >&2; exit 1; }
+[ -f "$checksum_file" ] || { echo 'CMS migration checksum is missing.' >&2; exit 1; }
+expected=$(tr -d '[:space:]' < "$checksum_file")
+actual=$(sha256sum "$incoming" | awk '{print $1}')
+[ "$actual" = "$expected" ] || { echo 'CMS migration checksum mismatch.' >&2; exit 1; }
+
+while IFS= read -r member; do
+  case "$member" in
+    pb_migrations/|pb_migrations/*.js) ;;
+    *) echo "Unexpected archive member: $member" >&2; exit 1 ;;
+  esac
+done <<EOF
+$(tar -tzf "$incoming")
+EOF
+
+release_id=$(printf '%s' "$actual" | cut -c1-16)
+release="$releases/$release_id"
+staging=$(mktemp -d "$releases/.staging.XXXXXX")
+trap 'rm -rf "$staging"; systemctl start bagatur-pocketbase.service >/dev/null 2>&1 || true' EXIT
+
+tar -xzf "$incoming" -C "$staging"
+find "$staging/pb_migrations" -maxdepth 1 -type f -name '*.js' | grep -q .
+if [ ! -d "$release" ]; then
+  mv "$staging" "$release"
+else
+  rm -rf "$staging"
+fi
+
+set -a
+. /etc/bagatur-pocketbase.env
+set +a
+systemctl stop bagatur-pocketbase.service
+runuser -u bagatur-cms -- env PB_ENCRYPTION_KEY="$PB_ENCRYPTION_KEY" \
+  /opt/bagatur-pocketbase/pocketbase migrate up \
+  --dir=/var/lib/bagatur-pocketbase/pb_data \
+  --migrationsDir="$release/pb_migrations" \
+  --encryptionEnv=PB_ENCRYPTION_KEY
+ln -sfn "$release/pb_migrations" "$current"
+systemctl start bagatur-pocketbase.service
+for attempt in 1 2 3 4 5 6; do
+  if curl -fsS http://127.0.0.1:8090/api/health >/dev/null; then
+    rm -f "$incoming" "$checksum_file"
+    trap - EXIT
+    echo "Activated CMS migrations $release_id"
+    exit 0
+  fi
+  sleep 1
+done
+
+echo 'CMS health check failed after migration.' >&2
+exit 1

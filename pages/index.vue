@@ -5,7 +5,7 @@ import { galleryCategoryOrder, mapUrl, scheduleRows, siteCopy, sitePhone, sitePh
 
 const config = useRuntimeConfig()
 const { locale } = useLocale()
-const { news, gallery, loading } = useCmsContent()
+const { news, gallery, results, loading } = useCmsContent()
 const t = computed(() => siteCopy[locale.value])
 const scheduleDays = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'] as const
 
@@ -27,6 +27,14 @@ const localized = (item: CmsItem, field: 'title' | 'body') => {
   const key = (field + '_' + locale.value) as keyof CmsItem
   const fallback = (field + '_bg') as keyof CmsItem
   return String(item[key] || item[fallback] || '')
+}
+const formatResultDate = (value: string | null) => {
+  if (!value) return ''
+  const normalized = value.includes(' ') ? value.replace(' ', 'T') : value
+  const date = new Date(normalized)
+  if (Number.isNaN(date.getTime())) return value.slice(0, 10)
+  const language = locale.value === 'bg' ? 'bg-BG' : locale.value === 'ru' ? 'ru-RU' : 'en-GB'
+  return new Intl.DateTimeFormat(language, { day: 'numeric', month: 'long', year: 'numeric' }).format(date)
 }
 const programImage = (key: string) => assetPath(
   key === 'adults'
@@ -131,17 +139,36 @@ useHead({
         <p class="section-label">{{ t.trainerLabel }}</p>
         <h2>{{ t.trainerTitle }}</h2>
         <p>{{ t.trainerText }}</p>
-        <p class="pending-note">{{ t.trainerPending }}</p>
       </div>
     </section>
 
     <section class="achievements section-bone">
-      <div class="page-shell achievements__grid">
-        <div>
-          <p class="section-label">{{ t.achievementsLabel }}</p>
-          <h2>{{ t.achievementsTitle }}</h2>
+      <div class="page-shell">
+        <div class="achievements__grid">
+          <div>
+            <p class="section-label">{{ t.achievementsLabel }}</p>
+            <h2>{{ t.achievementsTitle }}</h2>
+          </div>
+          <p class="section-lead">{{ t.achievementsText }}</p>
         </div>
-        <p class="section-lead">{{ t.achievementsText }}</p>
+        <div v-if="results.length" class="achievement-results" :class="{ loading }">
+          <article v-for="result in results" :key="result.id" class="achievement-result">
+            <div class="achievement-result__copy">
+              <time v-if="result.event_date" :datetime="result.event_date">{{ formatResultDate(result.event_date) }}</time>
+              <h3>{{ result.competition_name || localized(result, 'title') }}</h3>
+              <p v-if="result.competition_location" class="achievement-result__location">{{ result.competition_location }}</p>
+              <p v-if="localized(result, 'body')">{{ localized(result, 'body') }}</p>
+            </div>
+            <div class="achievement-result__medals">
+              <p>{{ t.medals.children }}</p>
+              <dl class="medal-tally">
+                <div class="medal-tally__gold"><dt>{{ t.medals.gold }}</dt><dd>{{ result.gold_count || 0 }}</dd></div>
+                <div class="medal-tally__silver"><dt>{{ t.medals.silver }}</dt><dd>{{ result.silver_count || 0 }}</dd></div>
+                <div class="medal-tally__bronze"><dt>{{ t.medals.bronze }}</dt><dd>{{ result.bronze_count || 0 }}</dd></div>
+              </dl>
+            </div>
+          </article>
+        </div>
       </div>
     </section>
 

@@ -1,0 +1,23 @@
+#!/bin/sh
+set -eu
+umask 077
+backup_dir=/var/backups/bagatur-pocketbase
+stamp=$(date -u +%Y%m%dT%H%M%SZ)
+tmp="$backup_dir/.${stamp}.tar.gz"
+final="$backup_dir/${stamp}.tar.gz"
+install -d -m 0700 "$backup_dir"
+systemctl stop bagatur-pocketbase.service
+trap 'systemctl start bagatur-pocketbase.service >/dev/null 2>&1 || true; rm -f "$tmp"' EXIT
+
+tar -C /var/lib/bagatur-pocketbase -czf "$tmp" pb_data
+mv "$tmp" "$final"
+systemctl start bagatur-pocketbase.service
+for attempt in 1 2 3 4 5 6 7 8 9 10; do
+  if curl -fsS http://127.0.0.1:8090/api/health >/dev/null 2>&1; then
+    break
+  fi
+  sleep 1
+  [ "$attempt" -lt 10 ] || { echo 'PocketBase did not recover after backup.' >&2; exit 1; }
+done
+trap - EXIT
+find "$backup_dir" -maxdepth 1 -type f -name '*.tar.gz' -mtime +14 -delete

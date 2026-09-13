@@ -1,0 +1,28 @@
+[Unit]
+Description=Bagatur PocketBase CMS
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=bagatur-cms
+Group=bagatur-cms
+WorkingDirectory=/opt/bagatur-pocketbase
+EnvironmentFile=/etc/bagatur-pocketbase.env
+Environment=GOMEMLIMIT=384MiB
+ExecStart=/opt/bagatur-pocketbase/pocketbase serve --http=127.0.0.1:8090 --dir=/var/lib/bagatur-pocketbase/pb_data --migrationsDir=/opt/bagatur-pocketbase/current-migrations --publicDir=/var/lib/bagatur-pocketbase/public-empty --encryptionEnv=PB_ENCRYPTION_KEY --hooksWatch=false --automigrate=false
+Restart=always
+RestartSec=5s
+LimitNOFILE=4096
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+ReadWritePaths=/var/lib/bagatur-pocketbase
+
+[Install]
+WantedBy=multi-user.target

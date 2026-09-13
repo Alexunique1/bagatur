@@ -35,8 +35,7 @@ export default defineNuxtConfig({
     public: {
       siteUrl,
       previewMode,
-      supabaseUrl: process.env.NUXT_PUBLIC_SUPABASE_URL || '',
-      supabasePublishableKey: process.env.NUXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || ''
+      cmsUrl: process.env.NUXT_PUBLIC_CMS_URL || ''
     }
   }
 })

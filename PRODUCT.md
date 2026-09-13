@@ -43,11 +43,11 @@ Bulgarian is the source language and default locale. Russian and English are com
 
 ## Content Management
 
-News and gallery content are modeled separately from page code. Gallery photographs belong to one of four public categories—academy training, tournaments and competitions, kids training, or adult training—and each category has its own public page. A trainer-facing editor at `/admin` is prepared for Supabase Auth, Database and Storage. Public content falls back to honest demo placeholders until Supabase is configured. Publishing rights use protected app metadata and RLS; no secret/service key may be exposed to the browser.
+News, gallery content and competition results are modeled separately from page code. Gallery photographs belong to one of four public categories—academy training, tournaments and competitions, kids training, or adult training—and each category has its own public page. The trainer-facing editor at `/admin` uses a self-hosted PocketBase instance on the production VDS with username/password authentication, API rules, SQLite data and local file storage. Published content is public; creation, editing and deletion require the `content_admin` role. Competition results store the event name, location, date and gold, silver and bronze medal counts. Public content falls back to honest demo placeholders when the CMS is unavailable.
 
 ## Evidence Boundaries
 
-The trainer section must describe verified credentials, the team they prepared and students' achievements. Until those facts are supplied, the build uses explicit placeholders. The same rule applies to testimonials, competition results, awards and prices.
+The trainer narrative and the general claims about Yordan Petrov's team were supplied by the project owner on 2026-09-13. Individual competition names, dates and medal counts are published only from trainer-entered CMS records. Testimonials, named awards, prices and any additional credentials remain placeholders until supplied.
 
 ## Brand Commitments
 

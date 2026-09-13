@@ -12,6 +12,9 @@
   --bone-deep: #e1dacd;
   --ink: #151816;
   --ash: #a7aaa5;
+  --medal-gold: #8c651c;
+  --medal-silver: #626762;
+  --medal-bronze: #8b4f2c;
   --line-dark: rgba(196, 154, 82, 0.28);
   --line-light: rgba(18, 23, 21, 0.18);
   --display: 'Oswald', 'Arial Narrow', sans-serif;
@@ -636,18 +639,10 @@ h3 {
   padding: clamp(60px, 8vw, 130px);
 }
 
-.trainer__copy > p:not(.section-label):not(.pending-note) {
+.trainer__copy > p:not(.section-label) {
   max-width: 62ch;
   color: #c4c7c2;
   font-size: 1.08rem;
-}
-
-.pending-note {
-  margin-top: 28px;
-  padding: 18px 20px;
-  border: 1px solid var(--line-dark);
-  color: var(--gold-light);
-  font-size: 0.88rem;
 }
 
 .achievements {
@@ -665,6 +660,86 @@ h3 {
   margin-bottom: 10px;
 }
 
+.achievement-results {
+  margin-top: clamp(44px, 6vw, 80px);
+  border-top: 1px solid var(--line-light);
+}
+
+.achievement-result {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: clamp(28px, 6vw, 88px);
+  align-items: center;
+  padding: 30px 0;
+  border-bottom: 1px solid var(--line-light);
+}
+
+.achievement-result__copy {
+  max-width: 68ch;
+}
+
+.achievement-result__copy time,
+.achievement-result__location {
+  color: var(--ink);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.achievement-result__copy h3 {
+  margin: 7px 0 10px;
+  font-size: clamp(1.75rem, 3vw, 2.65rem);
+}
+
+.achievement-result__copy p:last-child {
+  margin-bottom: 0;
+}
+
+.achievement-result__medals > p {
+  margin: 0 0 8px;
+  color: var(--ink);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.medal-tally {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(86px, 1fr));
+  margin: 0;
+  border: 1px solid var(--line-light);
+}
+
+.medal-tally > div {
+  min-width: 96px;
+  padding: 17px 20px;
+  text-align: center;
+}
+
+.medal-tally > div + div {
+  border-left: 1px solid var(--line-light);
+}
+
+.medal-tally dt {
+  color: var(--ink);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.medal-tally dd {
+  margin: 2px 0 0;
+  font-family: var(--display);
+  font-size: 2.25rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.medal-tally__gold dd { color: var(--medal-gold); }
+.medal-tally__silver dd { color: var(--medal-silver); }
+.medal-tally__bronze dd { color: var(--medal-bronze); }
 .schedule .section-heading {
   border-bottom: 1px solid var(--line-dark);
   padding-bottom: 32px;
@@ -1583,6 +1658,18 @@ h3 {
   .trainer__photo {
     min-height: 420px;
   }
+  .achievement-result {
+    grid-template-columns: 1fr;
+  }
+
+  .medal-tally {
+    width: 100%;
+  }
+
+  .medal-tally > div {
+    min-width: 0;
+    padding-inline: 10px;
+  }
 
   .trainer__copy,
   .contact__copy {
@@ -1877,6 +1964,27 @@ h3 {
   gap: 12px;
 }
 
+.admin-medals {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.admin-help,
+.admin-item__medals {
+  margin: 0;
+  color: var(--ink);
+  font-size: 0.84rem;
+}
+
+.admin-item__empty {
+  display: grid;
+  width: 100px;
+  height: 76px;
+  place-items: center;
+  background: var(--forge);
+  color: var(--gold-light);
+  font-family: var(--display);
+  font-size: 2rem;
+}
 .admin-check { grid-template-columns: 22px 1fr !important; align-items: center; }
 .admin-check input { width: 20px; min-height: 20px; }
 .admin-actions { margin-top: 4px; }
@@ -1906,6 +2014,7 @@ h3 {
   .admin-workspace { grid-template-columns: 1fr; }
   .admin-library { position: static; }
   .admin-inline { grid-template-columns: 1fr; }
+  .admin-medals { grid-template-columns: 1fr; }
   .admin-state, .admin-login { margin-top: 32px; }
 }
 

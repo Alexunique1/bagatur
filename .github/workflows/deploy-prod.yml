@@ -44,8 +44,7 @@ jobs:
           NUXT_APP_BASE_URL: /
           NUXT_PUBLIC_SITE_URL: ${{ env.PROD_SITE_URL }}
           NUXT_PUBLIC_PREVIEW_MODE: 'true'
-          NUXT_PUBLIC_SUPABASE_URL: ${{ secrets.NUXT_PUBLIC_SUPABASE_URL }}
-          NUXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.NUXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
+          NUXT_PUBLIC_CMS_URL: ''
 
       - name: Verify generated site
         shell: bash
@@ -66,11 +65,18 @@ jobs:
           set -euo pipefail
           release_id="${GITHUB_SHA:0:12}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
           archive="/tmp/bagatur-${release_id}.tar.gz"
+          cms_archive="/tmp/bagatur-cms-${release_id}.tar.gz"
+          cms_checksum_file="/tmp/bagatur-cms-${release_id}.sha256"
           tar -czf "$archive" -C .output/public .
+          tar -czf "$cms_archive" -C pocketbase pb_migrations
           checksum="$(sha256sum "$archive" | awk '{print $1}')"
+          cms_checksum="$(sha256sum "$cms_archive" | awk '{print $1}')"
+          printf '%s\n' "$cms_checksum" > "$cms_checksum_file"
           echo "release_id=$release_id" >> "$GITHUB_OUTPUT"
           echo "archive=$archive" >> "$GITHUB_OUTPUT"
           echo "checksum=$checksum" >> "$GITHUB_OUTPUT"
+          echo "cms_archive=$cms_archive" >> "$GITHUB_OUTPUT"
+          echo "cms_checksum_file=$cms_checksum_file" >> "$GITHUB_OUTPUT"
 
       - name: Configure SSH
         shell: bash
@@ -95,6 +101,20 @@ jobs:
             -P '${{ vars.PROD_PORT }}' \
             '${{ steps.release.outputs.archive }}' \
             '${{ vars.PROD_USER }}@${{ vars.PROD_HOST }}:${{ env.PROD_REMOTE_BASE }}/incoming/bagatur-${{ steps.release.outputs.release_id }}.tar.gz'
+          scp \
+            -i "$HOME/.ssh/bagatur_deploy" \
+            -o BatchMode=yes \
+            -o IdentitiesOnly=yes \
+            -P '${{ vars.PROD_PORT }}' \
+            '${{ steps.release.outputs.cms_archive }}' \
+            '${{ vars.PROD_USER }}@${{ vars.PROD_HOST }}:${{ env.PROD_REMOTE_BASE }}/incoming/cms-migrations.tar.gz'
+          scp \
+            -i "$HOME/.ssh/bagatur_deploy" \
+            -o BatchMode=yes \
+            -o IdentitiesOnly=yes \
+            -P '${{ vars.PROD_PORT }}' \
+            '${{ steps.release.outputs.cms_checksum_file }}' \
+            '${{ vars.PROD_USER }}@${{ vars.PROD_HOST }}:${{ env.PROD_REMOTE_BASE }}/incoming/cms-migrations.sha256'
 
       - name: Activate release
         shell: bash
@@ -146,6 +166,8 @@ jobs:
           tar -xzf "$archive" -C "$release"
           test -f "$release/index.html"
           test -f "$release/gallery/tournaments/index.html"
+
+          sudo /usr/local/sbin/deploy-bagatur-cms-migrations
 
           ln -sfn "releases/$release_id" "$remote_base/current"
 
