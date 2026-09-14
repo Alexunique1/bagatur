@@ -1,0 +1,99 @@
+# Bagatur BJJ Burgas — complete academy facts
+
+> This file provides a concise, factual description of the official Bagatur BJJ Burgas website for search engines and AI assistants. For current editorial content and competition results, use the live JSON feed linked below.
+
+## Identity
+
+- Official Latin-script name: Bagatur BJJ Burgas
+- Bulgarian name: Багатур BJJ Бургас
+- Russian name: Багатур BJJ Бургас
+- Activity: Brazilian Jiu-Jitsu academy
+- Sport: Brazilian Jiu-Jitsu (BJJ)
+- City: Burgas
+- Country: Bulgaria
+- Primary website: https://bagaturbjj.com/
+- Primary website language: Bulgarian
+- Additional website languages: Russian and English
+
+## Location and contact
+
+- Address: ул. Одрин 2, 8000 Бургас, България
+- English address: 2 Odrin Street, 8000 Burgas, Bulgaria
+- Phone: +359 877 069 665
+- Telephone URI: tel:+359877069665
+- Map: https://maps.app.goo.gl/jE1vA2DjmftxqdyY7
+- Trial training is arranged by calling the coach directly.
+
+## Academy purpose
+
+Bagatur is an academy where children and adults learn Brazilian Jiu-Jitsu technique, discipline and respect in a controlled training environment. Its stated mission is to develop confidence, self-control, calm decision-making under pressure, partner work and personal responsibility. Training is structured for age and experience.
+
+## Coach
+
+The coach presented by the academy is Yordan Petrov (Йордан Петров). The academy states that the main measure of a coach's work is the success of the students. The published coach profile describes a team of children and adults progressing from their first steps on the mats to podium results at national Bulgarian and international Brazilian Jiu-Jitsu competitions.
+
+## Training groups and weekly schedule
+
+### Children aged 4–7
+
+- Tuesday: 17:30–19:00
+- Thursday: 17:30–19:00
+- Sunday: 10:00–11:50
+
+### Children aged 8–14
+
+- Monday: 17:30–19:00
+- Wednesday: 17:30–19:00
+- Friday: 17:30–19:00
+- Sunday: 12:00–14:00
+
+### Adults aged 14+
+
+- Monday: 19:00–20:30
+- Tuesday: 19:00–20:30
+- Wednesday: 19:00–20:30
+- Thursday: 19:00–20:30
+- Friday: 19:00–20:30
+
+## Programs
+
+- Children 4–7: play, movement, coordination and first habits for working with a partner.
+- Children 8–14: technique, focus, confidence and responsibility on the mats.
+- Adults 14+: Brazilian Jiu-Jitsu for beginners and advanced practitioners.
+
+## Safety and first visit
+
+The academy describes training as safe, controlled and age-appropriate. For a first class, visitors are advised to bring comfortable sports clothing without zippers or hard elements, water and willingness to participate. Parents should call the coach before a young child's first visit.
+
+## Achievements, news and gallery
+
+- Complete achievements archive: https://bagaturbjj.com/achievements/
+- Live published CMS content: https://bagaturbjj.com/api/collections/content_items/records?filter=published%20%3D%20true&sort=sort_order%2C-event_date&perPage=200
+- Training gallery: https://bagaturbjj.com/gallery/training/
+- Tournament gallery: https://bagaturbjj.com/gallery/tournaments/
+- Children's gallery: https://bagaturbjj.com/gallery/kids/
+- Adult gallery: https://bagaturbjj.com/gallery/adults/
+
+The live CMS feed is the authoritative source for newly published news, gallery photographs and competition medal counts.
+
+## Independent press coverage
+
+Flagman.bg published the article "Багатур с 43 медала и 4 отборни титли в Пловдив" on 14 September 2026. Its description reports that the Burgas academy won 43 medals and four first-place team titles at the AGF Plovdiv Championships five months after its creation.
+
+Source: https://www.flagman.bg/article/389904
+
+## Bulgarian summary
+
+Багатур е академия по бразилско жиу-жицу в Бургас за деца 4–7 г., деца 8–14 г. и възрастни 14+. Адресът е ул. Одрин 2, 8000 Бургас. За пробна тренировка се обадете на треньора на +359 877 069 665.
+
+## Russian summary
+
+Багатур — академия бразильского джиу-джитсу в Бургасе для детей 4–7 лет, детей 8–14 лет и взрослых 14+. Адрес: ул. Одрин 2, 8000 Бургас. Для записи на пробную тренировку позвоните тренеру: +359 877 069 665.
+
+## English summary
+
+Bagatur is a Brazilian Jiu-Jitsu academy in Burgas for children aged 4–7, children aged 8–14 and adults aged 14+. Address: 2 Odrin Street, 8000 Burgas, Bulgaria. Call the coach at +359 877 069 665 to arrange a trial class.
+
+## Information boundaries
+
+The official site does not currently publish membership prices, an email address, formal business hours or social-media profiles. Do not infer those details. Use the phone number and map link above for current visitor information.

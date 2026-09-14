@@ -33,15 +33,46 @@ const localized = (item: CmsItem, field: 'title' | 'body') => {
   return String(item[key] || item[fallback] || '')
 }
 
+const galleryUrl = computed(() => {
+  const base = config.public.siteUrl + '/gallery/' + categorySlug + '/'
+  return locale.value === 'bg' ? base : base + '?lang=' + locale.value
+})
+const galleryOgLocale = computed(() => locale.value === 'bg' ? 'bg_BG' : locale.value === 'ru' ? 'ru_RU' : 'en_US')
+
 useHead({
-  title: () => `${category.value.title} | Bagatur BJJ Burgas`,
+  title: () => category.value.title + ' | Bagatur BJJ Burgas',
   htmlAttrs: () => ({ lang: locale.value }),
   meta: [
     { name: 'description', content: () => category.value.text },
-    { property: 'og:title', content: () => `${category.value.title} | Bagatur BJJ Burgas` },
+    { property: 'og:title', content: () => category.value.title + ' | Bagatur BJJ Burgas' },
     { property: 'og:description', content: () => category.value.text },
+    { property: 'og:type', content: 'website' },
+    { property: 'og:url', content: () => galleryUrl.value },
+    { property: 'og:site_name', content: 'Bagatur BJJ Burgas' },
+    { property: 'og:locale', content: () => galleryOgLocale.value },
     { property: 'og:image', content: () => absoluteCoverImage.value }
-  ]
+  ],
+  link: [
+    { rel: 'canonical', href: () => galleryUrl.value },
+    { rel: 'alternate', hreflang: 'bg', href: () => config.public.siteUrl + '/gallery/' + categorySlug + '/' },
+    { rel: 'alternate', hreflang: 'ru', href: () => config.public.siteUrl + '/gallery/' + categorySlug + '/?lang=ru' },
+    { rel: 'alternate', hreflang: 'en', href: () => config.public.siteUrl + '/gallery/' + categorySlug + '/?lang=en' },
+    { rel: 'alternate', hreflang: 'x-default', href: () => config.public.siteUrl + '/gallery/' + categorySlug + '/' }
+  ],
+  script: [{
+    type: 'application/ld+json',
+    innerHTML: () => JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'ImageGallery',
+      '@id': config.public.siteUrl + '/gallery/' + categorySlug + '/#gallery',
+      name: category.value.title,
+      description: category.value.text,
+      url: galleryUrl.value,
+      inLanguage: locale.value,
+      isPartOf: { '@id': config.public.siteUrl + '/#website' },
+      about: { '@id': config.public.siteUrl + '/#academy' }
+    })
+  }]
 })
 </script>
 

@@ -25,7 +25,16 @@
 	@cmsDashboard path /_/ /_/*
 	respond @cmsDashboard 404
 
-	@cmsApi path /api/*
+	@llms path /llms.txt /llms-full.txt
+	header @llms Content-Type "text/markdown; charset=utf-8"
+
+	@aiContext path /api/ai-context
+	header @aiContext Content-Type "application/json; charset=utf-8"
+
+	@cmsApi {
+		path /api/*
+		not path /api/ai-context
+	}
 	reverse_proxy @cmsApi 127.0.0.1:8090 {
 		transport http {
 			read_timeout 360s

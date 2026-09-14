@@ -18,6 +18,11 @@ const resultTimestamp = (item: CmsItem) => {
 const orderedResults = computed(() => [...results.value]
   .sort((a, b) => resultTimestamp(b) - resultTimestamp(a) || Number(a.sort_order || 0) - Number(b.sort_order || 0)))
 
+const archiveUrl = computed(() => locale.value === 'bg'
+  ? config.public.siteUrl + '/achievements/'
+  : config.public.siteUrl + '/achievements/?lang=' + locale.value)
+const archiveOgLocale = computed(() => locale.value === 'bg' ? 'bg_BG' : locale.value === 'ru' ? 'ru_RU' : 'en_US')
+
 useHead({
   title: () => t.value.achievementsArchive.metaTitle,
   htmlAttrs: () => ({ lang: locale.value }),
@@ -26,9 +31,32 @@ useHead({
     { property: 'og:title', content: () => t.value.achievementsArchive.metaTitle },
     { property: 'og:description', content: () => t.value.achievementsArchive.text },
     { property: 'og:type', content: 'website' },
-    { property: 'og:url', content: () => config.public.siteUrl + '/achievements/' }
+    { property: 'og:url', content: () => archiveUrl.value },
+    { property: 'og:site_name', content: 'Bagatur BJJ Burgas' },
+    { property: 'og:locale', content: () => archiveOgLocale.value },
+    { property: 'og:image', content: () => config.public.siteUrl + '/images/bagatur-logo-main.jpg' }
   ],
-  link: [{ rel: 'canonical', href: () => config.public.siteUrl + '/achievements/' }]
+  link: [
+    { rel: 'canonical', href: () => archiveUrl.value },
+    { rel: 'alternate', hreflang: 'bg', href: () => config.public.siteUrl + '/achievements/' },
+    { rel: 'alternate', hreflang: 'ru', href: () => config.public.siteUrl + '/achievements/?lang=ru' },
+    { rel: 'alternate', hreflang: 'en', href: () => config.public.siteUrl + '/achievements/?lang=en' },
+    { rel: 'alternate', hreflang: 'x-default', href: () => config.public.siteUrl + '/achievements/' }
+  ],
+  script: [{
+    type: 'application/ld+json',
+    innerHTML: () => JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      '@id': config.public.siteUrl + '/achievements/#collection',
+      name: t.value.achievementsArchive.title,
+      description: t.value.achievementsArchive.text,
+      url: archiveUrl.value,
+      inLanguage: locale.value,
+      isPartOf: { '@id': config.public.siteUrl + '/#website' },
+      about: { '@id': config.public.siteUrl + '/#academy' }
+    })
+  }]
 })
 </script>
 

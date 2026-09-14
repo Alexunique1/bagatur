@@ -97,33 +97,106 @@ const finishResultSwipe = (event: TouchEvent) => {
   else showNextResult()
 }
 
+const localeUrl = computed(() => locale.value === 'bg'
+  ? config.public.siteUrl + '/'
+  : config.public.siteUrl + '/?lang=' + locale.value)
+const ogLocale = computed(() => locale.value === 'bg' ? 'bg_BG' : locale.value === 'ru' ? 'ru_RU' : 'en_US')
+
 useHead({
   title: () => t.value.metaTitle,
   htmlAttrs: () => ({ lang: locale.value }),
+  link: [
+    { rel: 'canonical', href: () => localeUrl.value },
+    { rel: 'alternate', hreflang: 'bg', href: () => config.public.siteUrl + '/' },
+    { rel: 'alternate', hreflang: 'ru', href: () => config.public.siteUrl + '/?lang=ru' },
+    { rel: 'alternate', hreflang: 'en', href: () => config.public.siteUrl + '/?lang=en' },
+    { rel: 'alternate', hreflang: 'x-default', href: () => config.public.siteUrl + '/' }
+  ],
   meta: [
     { name: 'description', content: () => t.value.metaDescription },
     { property: 'og:title', content: () => t.value.metaTitle },
     { property: 'og:description', content: () => t.value.metaDescription },
     { property: 'og:type', content: 'website' },
-    { property: 'og:image', content: () => config.public.siteUrl + '/images/bagatur-logo-main.jpg' }
+    { property: 'og:url', content: () => localeUrl.value },
+    { property: 'og:site_name', content: 'Bagatur BJJ Burgas' },
+    { property: 'og:locale', content: () => ogLocale.value },
+    { property: 'og:image', content: () => config.public.siteUrl + '/images/bagatur-logo-main.jpg' },
+    { name: 'twitter:card', content: 'summary_large_image' },
+    { name: 'twitter:title', content: () => t.value.metaTitle },
+    { name: 'twitter:description', content: () => t.value.metaDescription },
+    { name: 'twitter:image', content: () => config.public.siteUrl + '/images/bagatur-logo-main.jpg' }
   ],
   script: [{
     type: 'application/ld+json',
     innerHTML: () => JSON.stringify({
       '@context': 'https://schema.org',
-      '@type': 'SportsActivityLocation',
-      name: 'Bagatur BJJ Burgas',
-      url: config.public.siteUrl,
-      telephone: sitePhone,
-      sport: 'Brazilian Jiu-Jitsu',
-      address: {
-        '@type': 'PostalAddress',
-        streetAddress: '2 Odrin Street',
-        addressLocality: 'Burgas',
-        postalCode: '8000',
-        addressCountry: 'BG'
-      },
-      hasMap: mapUrl
+      '@graph': [
+        {
+          '@type': 'WebSite',
+          '@id': config.public.siteUrl + '/#website',
+          name: 'Bagatur BJJ Burgas',
+          alternateName: ['Багатур BJJ Бургас', 'Багатур BJJ Бургас'],
+          url: config.public.siteUrl + '/',
+          inLanguage: ['bg', 'ru', 'en'],
+          description: t.value.metaDescription
+        },
+        {
+          '@type': 'SportsActivityLocation',
+          '@id': config.public.siteUrl + '/#academy',
+          name: 'Bagatur BJJ Burgas',
+          alternateName: ['Багатур BJJ Бургас', 'Багатур BJJ Бургас'],
+          url: config.public.siteUrl + '/',
+          logo: config.public.siteUrl + '/images/bagatur-logo-main.jpg',
+          image: config.public.siteUrl + '/images/bagatur-logo-main.jpg',
+          description: t.value.metaDescription,
+          slogan: t.value.missionTitle,
+          telephone: sitePhone,
+          sport: 'Brazilian Jiu-Jitsu',
+          knowsAbout: ['Brazilian Jiu-Jitsu', 'BJJ for children', 'BJJ for adults'],
+          availableLanguage: ['Bulgarian', 'Russian', 'English'],
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: 'ул. Одрин 2',
+            addressLocality: 'Бургас',
+            postalCode: '8000',
+            addressCountry: 'BG'
+          },
+          areaServed: { '@type': 'City', name: 'Burgas' },
+          hasMap: mapUrl,
+          contactPoint: {
+            '@type': 'ContactPoint',
+            telephone: sitePhone,
+            contactType: 'trial class booking',
+            availableLanguage: ['Bulgarian', 'Russian', 'English']
+          },
+          employee: {
+            '@type': 'Person',
+            name: 'Yordan Petrov',
+            alternateName: 'Йордан Петров',
+            jobTitle: 'Brazilian Jiu-Jitsu coach'
+          },
+          hasOfferCatalog: {
+            '@type': 'OfferCatalog',
+            name: t.value.programSection,
+            itemListElement: t.value.programs.map((program: { title: string, text: string }) => ({
+              '@type': 'Offer',
+              itemOffered: {
+                '@type': 'Service',
+                name: program.title,
+                description: program.text,
+                areaServed: { '@type': 'City', name: 'Burgas' }
+              }
+            }))
+          },
+          subjectOf: {
+            '@type': 'NewsArticle',
+            headline: 'Багатур с 43 медала и 4 отборни титли в Пловдив',
+            datePublished: '2026-09-14T21:30:00+03:00',
+            url: 'https://www.flagman.bg/article/389904',
+            publisher: { '@type': 'Organization', name: 'Flagman.bg' }
+          }
+        }
+      ]
     })
   }]
 })

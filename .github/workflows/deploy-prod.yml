@@ -56,6 +56,13 @@ jobs:
           test -f .output/public/gallery/kids/index.html
           test -f .output/public/gallery/adults/index.html
           test -f .output/public/achievements/index.html
+          test -f .output/public/robots.txt
+          test -f .output/public/llms.txt
+          test -f .output/public/llms-full.txt
+          test -f .output/public/api/ai-context
+          grep -q 'OAI-SearchBot' .output/public/robots.txt
+          grep -q 'Bagatur BJJ Burgas' .output/public/llms.txt
+          grep -q '"schemaVersion":1' .output/public/api/ai-context
           grep -q 'index, follow, max-image-preview:large' .output/public/index.html
           if grep -q 'noindex' .output/public/index.html; then
             echo 'Production homepage must be indexable.' >&2
@@ -201,7 +208,10 @@ jobs:
           root_headers="$(mktemp)"
           tournaments_body="$(mktemp)"
           achievements_body="$(mktemp)"
-          trap 'rm -f "$root_body" "$root_headers" "$tournaments_body" "$achievements_body"' EXIT
+          robots_body="$(mktemp)"
+          llms_body="$(mktemp)"
+          ai_context_body="$(mktemp)"
+          trap 'rm -f "$root_body" "$root_headers" "$tournaments_body" "$achievements_body" "$robots_body" "$llms_body" "$ai_context_body"' EXIT
           curl -fsS --retry 6 --retry-delay 2 -D "$root_headers" -o "$root_body" "$PROD_SITE_URL/"
           grep -q 'Силен характер' "$root_body"
           grep -q 'index, follow, max-image-preview:large' "$root_body"
@@ -213,6 +223,12 @@ jobs:
           grep -q 'Турнири и състезания' "$tournaments_body"
           curl -fsS -o "$achievements_body" "$PROD_SITE_URL/achievements/"
           grep -q 'Всички състезания. Всички резултати.' "$achievements_body"
+          curl -fsS -o "$robots_body" "$PROD_SITE_URL/robots.txt"
+          grep -q 'OAI-SearchBot' "$robots_body"
+          curl -fsS -o "$llms_body" "$PROD_SITE_URL/llms.txt"
+          grep -q 'Bagatur BJJ Burgas' "$llms_body"
+          curl -fsS -o "$ai_context_body" "$PROD_SITE_URL/api/ai-context"
+          grep -q '"schemaVersion":1' "$ai_context_body"
 
       - name: Deployment summary
         shell: bash

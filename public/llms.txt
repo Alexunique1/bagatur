@@ -1,33 +1,47 @@
-# Багатур BJJ Burgas
+# Bagatur BJJ Burgas
 
-Багатур е нова академия по бразилско джиу-джицу в Бургас, България.
-Основният език на сайта е български, с английска версия чрез езиков селектор.
+> Bulgarian-first Brazilian Jiu-Jitsu academy in Burgas, Bulgaria, with classes for children and adults. The official website is also available in Russian and English.
 
-## Core Pages
+Bagatur BJJ Burgas teaches Brazilian Jiu-Jitsu in a controlled training environment focused on technique, discipline, confidence, self-control and respect. The academy is located at 2 Odrin Street, 8000 Burgas. Trial training is arranged by calling the coach directly.
 
-- Home: /
-- About, mission and values: /about
-- Development methodology: /methodology
-- Mentors: /mentors
-- Blog: /blog
-- Kids 4-7: /kids/4-7
-- Kids 8-13: /kids/8-13
-- Adults BJJ: /adults/bjj
-- Functional training: /adults/functional-training
-- Events calendar: /events/calendar
-- GYMNASIUM CAMP: /events/gymnasium-camp
-- Schedule: /schedule
-- Vacancies: /vacancies
-- Privacy policy: /privacy
-- Public offer: /offer
-- Terms: /terms
+## Official pages
+
+- [Home and academy overview](https://bagaturbjj.com/)
+- [All competition results and achievements](https://bagaturbjj.com/achievements/)
+- [Training gallery](https://bagaturbjj.com/gallery/training/)
+- [Tournament gallery](https://bagaturbjj.com/gallery/tournaments/)
+- [Children's training gallery](https://bagaturbjj.com/gallery/kids/)
+- [Adult training gallery](https://bagaturbjj.com/gallery/adults/)
+- [Google Maps location](https://maps.app.goo.gl/jE1vA2DjmftxqdyY7)
+
+## Independent coverage
+
+- [Flagman.bg: Багатур с 43 медала и 4 отборни титли в Пловдив](https://www.flagman.bg/article/389904) — published 14 September 2026
+
+## Machine-readable resources
+
+- [Complete academy facts](https://bagaturbjj.com/llms-full.txt)
+- [Structured AI context in JSON](https://bagaturbjj.com/api/ai-context)
+- [Live published news, gallery items and competition results in JSON](https://bagaturbjj.com/api/collections/content_items/records?filter=published%20%3D%20true&sort=sort_order%2C-event_date&perPage=200)
+- [XML sitemap](https://bagaturbjj.com/sitemap.xml)
 
 ## Contact
 
-Phone: +359 877 069 665
-Tel link: tel:+359877069665
+- Academy: Bagatur BJJ Burgas
+- Address: ул. Одрин 2, 8000 Бургас, България
+- Phone: +359 877 069 665
+- Trial class: call the coach at +359 877 069 665
+- Primary language: Bulgarian
+- Additional website languages: Russian and English
 
-## Positioning
+## Training groups
 
-The academy offers Brazilian Jiu-Jitsu for children aged 4-7 and 8-13, adult BJJ groups, functional training, trial classes, events, competitions and development camps.
-Address, email, coach biography and final schedule are placeholders and will be added later.
+- Children aged 4–7
+- Children aged 8–14
+- Adults aged 14+, beginners and advanced practitioners
+
+## Language versions
+
+- [Bulgarian](https://bagaturbjj.com/)
+- [Russian](https://bagaturbjj.com/?lang=ru)
+- [English](https://bagaturbjj.com/?lang=en)
