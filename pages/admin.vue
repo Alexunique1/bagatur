@@ -57,7 +57,7 @@ const api = async <T>(path: string, init: RequestInit = {}, withAuth = true): Pr
 
 const loadItems = async () => {
   if (!session.value) return
-  const query = new URLSearchParams({ sort: 'sort_order,-created', perPage: '200' })
+  const query = new URLSearchParams({ sort: 'sort_order,-event_date', perPage: '200' })
   const payload = await api<PocketBaseList<CmsItem>>(`/api/collections/content_items/records?${query}`)
   items.value = payload.items.map(item => cmsRecord(item, cmsBase))
 }
@@ -74,8 +74,12 @@ const login = async () => {
     token.value = auth.token
     localStorage.setItem(storageKey, auth.token)
     password.value = ''
-    await loadItems()
-  } catch (error: any) {
+    try {
+      await loadItems()
+    } catch (error: any) {
+      errorMessage.value = ('Входът е успешен, но материалите не се заредиха. ' + (error?.message || '')).trim()
+    }
+  } catch {
     token.value = ''
     localStorage.removeItem(storageKey)
     errorMessage.value = 'Потребителското име или паролата е неправилно.'
