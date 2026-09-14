@@ -212,7 +212,7 @@ jobs:
           curl -fsS -o "$tournaments_body" "$PROD_SITE_URL/gallery/tournaments/"
           grep -q 'Турнири и състезания' "$tournaments_body"
           curl -fsS -o "$achievements_body" "$PROD_SITE_URL/achievements/"
-          grep -q 'Всички постижения' "$achievements_body"
+          grep -q 'Всички състезания. Всички резултати.' "$achievements_body"
 
       - name: Deployment summary
         shell: bash
