@@ -28,14 +28,7 @@ const localized = (item: CmsItem, field: 'title' | 'body') => {
   const fallback = (field + '_bg') as keyof CmsItem
   return String(item[key] || item[fallback] || '')
 }
-const formatResultDate = (value: string | null) => {
-  if (!value) return ''
-  const normalized = value.includes(' ') ? value.replace(' ', 'T') : value
-  const date = new Date(normalized)
-  if (Number.isNaN(date.getTime())) return value.slice(0, 10)
-  const language = locale.value === 'bg' ? 'bg-BG' : locale.value === 'ru' ? 'ru-RU' : 'en-GB'
-  return new Intl.DateTimeFormat(language, { day: 'numeric', month: 'long', year: 'numeric' }).format(date)
-}
+
 const programImage = (key: string) => assetPath(
   key === 'adults'
     ? '/images/placeholders/programs-adults.jpg'
@@ -46,6 +39,63 @@ const galleryCategories = computed(() => galleryCategoryOrder.flatMap((slug) => 
   const cover = items[0]
   return cover ? [{ slug, cover, count: items.length }] : []
 }))
+const achievementsRoute = computed(() => ({
+  path: '/achievements/',
+  query: locale.value === 'bg' ? {} : { lang: locale.value }
+}))
+const resultTimestamp = (item: CmsItem) => {
+  if (!item.event_date) return 0
+  const normalized = item.event_date.includes(' ') ? item.event_date.replace(' ', 'T') : item.event_date
+  const value = new Date(normalized).getTime()
+  return Number.isNaN(value) ? 0 : value
+}
+const latestResults = computed(() => [...results.value]
+  .sort((a, b) => resultTimestamp(b) - resultTimestamp(a) || Number(a.sort_order || 0) - Number(b.sort_order || 0))
+  .slice(0, 10))
+const activeResultIndex = ref(0)
+const resultDirection = ref<'next' | 'previous'>('next')
+const activeResult = computed(() => latestResults.value[activeResultIndex.value])
+const achievementStatus = computed(() => t.value.achievementsNav.status
+  .replace('{current}', String(activeResultIndex.value + 1))
+  .replace('{total}', String(latestResults.value.length)))
+
+watch(() => latestResults.value.map(item => item.id).join('|'), () => {
+  activeResultIndex.value = 0
+})
+
+const showPreviousResult = () => {
+  if (activeResultIndex.value === 0) return
+  resultDirection.value = 'previous'
+  activeResultIndex.value -= 1
+}
+const showNextResult = () => {
+  if (activeResultIndex.value >= latestResults.value.length - 1) return
+  resultDirection.value = 'next'
+  activeResultIndex.value += 1
+}
+const handleResultKeydown = (event: KeyboardEvent) => {
+  if (event.key === 'ArrowLeft') {
+    event.preventDefault()
+    showPreviousResult()
+  }
+  if (event.key === 'ArrowRight') {
+    event.preventDefault()
+    showNextResult()
+  }
+}
+
+let resultSwipeStart: number | null = null
+const startResultSwipe = (event: TouchEvent) => {
+  resultSwipeStart = event.changedTouches[0]?.clientX ?? null
+}
+const finishResultSwipe = (event: TouchEvent) => {
+  if (resultSwipeStart === null) return
+  const distance = (event.changedTouches[0]?.clientX ?? resultSwipeStart) - resultSwipeStart
+  resultSwipeStart = null
+  if (Math.abs(distance) < 48) return
+  if (distance > 0) showPreviousResult()
+  else showNextResult()
+}
 
 useHead({
   title: () => t.value.metaTitle,
@@ -142,7 +192,7 @@ useHead({
       </div>
     </section>
 
-    <section class="achievements section-bone">
+    <section class="achievements section-bone" id="achievements">
       <div class="page-shell">
         <div class="achievements__grid">
           <div>
@@ -151,23 +201,44 @@ useHead({
           </div>
           <p class="section-lead">{{ t.achievementsText }}</p>
         </div>
-        <div v-if="results.length" class="achievement-results" :class="{ loading }">
-          <article v-for="result in results" :key="result.id" class="achievement-result">
-            <div class="achievement-result__copy">
-              <time v-if="result.event_date" :datetime="result.event_date">{{ formatResultDate(result.event_date) }}</time>
-              <h3>{{ result.competition_name || localized(result, 'title') }}</h3>
-              <p v-if="result.competition_location" class="achievement-result__location">{{ result.competition_location }}</p>
-              <p v-if="localized(result, 'body')">{{ localized(result, 'body') }}</p>
+        <div
+          v-if="latestResults.length"
+          class="achievement-results achievement-carousel"
+          :class="[{ loading }, 'is-' + resultDirection]"
+          role="region"
+          :aria-roledescription="t.achievementsNav.carousel"
+          :aria-label="t.achievementsTitle"
+          :tabindex="latestResults.length > 1 ? 0 : undefined"
+          @keydown="handleResultKeydown"
+          @touchstart.passive="startResultSwipe"
+          @touchend.passive="finishResultSwipe"
+        >
+          <div class="achievement-carousel__toolbar">
+            <NuxtLink :to="achievementsRoute" class="achievement-carousel__archive">{{ t.achievementsNav.all }}</NuxtLink>
+            <div v-if="latestResults.length > 1" class="achievement-carousel__navigation">
+              <p class="achievement-carousel__counter" aria-live="polite">
+                <span class="sr-only">{{ achievementStatus }}</span>
+                <span aria-hidden="true">{{ String(activeResultIndex + 1).padStart(2, '0') }} / {{ String(latestResults.length).padStart(2, '0') }}</span>
+              </p>
+              <div class="achievement-carousel__buttons">
+                <button type="button" :aria-label="t.achievementsNav.previous" :disabled="activeResultIndex === 0" @click="showPreviousResult">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 5-7 7 7 7" /></svg>
+                </button>
+                <button type="button" :aria-label="t.achievementsNav.next" :disabled="activeResultIndex === latestResults.length - 1" @click="showNextResult">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 5 7 7-7 7" /></svg>
+                </button>
+              </div>
             </div>
-            <div class="achievement-result__medals">
-              <p>{{ t.medals.children }}</p>
-              <dl class="medal-tally">
-                <div class="medal-tally__gold"><dt>{{ t.medals.gold }}</dt><dd>{{ result.gold_count || 0 }}</dd></div>
-                <div class="medal-tally__silver"><dt>{{ t.medals.silver }}</dt><dd>{{ result.silver_count || 0 }}</dd></div>
-                <div class="medal-tally__bronze"><dt>{{ t.medals.bronze }}</dt><dd>{{ result.bronze_count || 0 }}</dd></div>
-              </dl>
-            </div>
-          </article>
+          </div>
+          <Transition name="achievement-slide" mode="out-in">
+            <AchievementResultCard
+              v-if="activeResult"
+              :key="activeResult.id"
+              :result="activeResult"
+              :locale="locale"
+              :medals="t.medals"
+            />
+          </Transition>
         </div>
       </div>
     </section>

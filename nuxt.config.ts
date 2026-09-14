@@ -1,7 +1,7 @@
 const siteUrl = process.env.NUXT_PUBLIC_SITE_URL || 'https://bagatur-bjj.bg'
 const baseURL = process.env.NUXT_APP_BASE_URL || '/'
 const previewMode = process.env.NUXT_PUBLIC_PREVIEW_MODE === 'true'
-const pages = ['/', '/admin', '/api/ai-context', '/gallery/training/', '/gallery/tournaments/', '/gallery/kids/', '/gallery/adults/']
+const pages = ['/', '/admin', '/achievements/', '/api/ai-context', '/gallery/training/', '/gallery/tournaments/', '/gallery/kids/', '/gallery/adults/']
 
 export default defineNuxtConfig({
   compatibilityDate: '2025-01-01',

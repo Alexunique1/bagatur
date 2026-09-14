@@ -28,6 +28,12 @@ const emptyForm = (): EditorForm => ({
 })
 const form = reactive<EditorForm>(emptyForm())
 const isResult = computed(() => form.kind === 'result')
+const imageGuidance = computed(() => {
+  if (form.kind === 'gallery') {
+    return 'Препоръчително: 1600 × 1200 px (4:3), JPG или WebP. Дръжте хората и важните детайли в централните 70% — обложките се изрязват адаптивно на различни екрани.'
+  }
+  return 'Препоръчително: 1600 × 900 px (16:9), JPG или WebP. Максимален размер на файла: 10 MB.'
+})
 
 useHead({
   title: 'Редактор — Bagatur BJJ',
@@ -302,7 +308,10 @@ onMounted(async () => {
               <fieldset><legend>Description in English</legend><label>Text<textarea v-model="form.body_en" rows="3" /></label></fieldset>
             </template>
 
-            <label>Снимка <small v-if="isResult">(по желание)</small><input id="content-image" type="file" accept="image/jpeg,image/png,image/webp" @change="onFile"></label>
+            <label class="admin-image-upload">Снимка <small v-if="isResult">(по желание)</small>
+              <input id="content-image" type="file" accept="image/jpeg,image/png,image/webp" aria-describedby="content-image-guidance" @change="onFile">
+              <span id="content-image-guidance" class="admin-image-guidance">{{ imageGuidance }}</span>
+            </label>
             <label>Или готов URL <small>(по желание)</small><input v-model="form.external_image_url" type="url" placeholder="https://…"></label>
             <label class="admin-check"><input v-model="form.published" type="checkbox"> Публикувай веднага</label>
             <p v-if="message" class="admin-success" role="status">{{ message }}</p>

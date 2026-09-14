@@ -15,15 +15,24 @@ export const useCmsContent = () => {
     loading.value = true
     error.value = null
     try {
-      const query = new URLSearchParams({
-        filter: 'published = true',
-        sort: 'sort_order,-event_date',
-        perPage: '200'
-      })
-      const response = await fetch(`${cmsBase}/api/collections/content_items/records?${query}`)
-      if (!response.ok) throw new Error('CMS content is temporarily unavailable.')
-      const payload = await response.json() as PocketBaseList<CmsItem>
-      const items = payload.items.map(item => cmsRecord(item, cmsBase))
+      const items: CmsItem[] = []
+      let page = 1
+      let totalPages = 1
+
+      do {
+        const query = new URLSearchParams({
+          filter: 'published = true',
+          sort: 'sort_order,-event_date',
+          page: String(page),
+          perPage: '200'
+        })
+        const response = await fetch(cmsBase + '/api/collections/content_items/records?' + query)
+        if (!response.ok) throw new Error('CMS content is temporarily unavailable.')
+        const payload = await response.json() as PocketBaseList<CmsItem>
+        items.push(...payload.items.map(item => cmsRecord(item, cmsBase)))
+        totalPages = payload.totalPages
+        page += 1
+      } while (page <= totalPages)
       const remoteNews = items.filter(item => item.kind === 'news')
       const remoteGallery = items.filter(item => item.kind === 'gallery')
       news.value = remoteNews.length ? remoteNews : [...fallbackNews]

@@ -116,7 +116,11 @@ Large photo-backed horizontal or equal-width bands with an age label and direct 
 
 ### Navigation
 
-The full logo is cropped into a compact mark plus wordmark. FAQ is excluded from navigation; Gallery is included. Phone CTA appears before the BG/RU/EN switch. Burger opens an accessible stacked menu.
+The full logo is cropped into a compact mark plus wordmark. FAQ is excluded from navigation; Gallery and Achievements are included. Phone CTA appears before the BG/RU/EN switch. Burger opens an accessible stacked menu.
+
+### Achievement Results
+
+The homepage holds one competition result at a time with a compact position counter, 48px outlined arrow controls and horizontal swipe support. Motion follows the selected direction and stops under reduced-motion preferences. The archive page repeats the same result row without carousel controls, keeping the entire verified competition history visible in reverse chronological order.
 
 ## Do's and Don'ts
 
@@ -124,6 +128,7 @@ The full logo is cropped into a compact mark plus wordmark. FAQ is excluded from
 
 - **Do** use `Logo_main.jpg` everywhere the brand appears.
 - **Do** let real trainer-and-student photography carry trust.
+- **Do** use 16:9 source images for news/results and 4:3 source images with a central safe area for gallery content.
 - **Do** make achievements documented and specific.
 - **Do** keep the phone action immediately visible.
 - **Do** keep all three locales complete.

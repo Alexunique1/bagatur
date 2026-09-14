@@ -43,7 +43,7 @@ Bulgarian is the source language and default locale. Russian and English are com
 
 ## Content Management
 
-News, gallery content and competition results are modeled separately from page code. Gallery photographs belong to one of four public categories—academy training, tournaments and competitions, kids training, or adult training—and each category has its own public page. The trainer-facing editor at `/admin` uses a self-hosted PocketBase instance on the production VDS with username/password authentication, API rules, SQLite data and local file storage. Published content is public; creation, editing and deletion require the `content_admin` role. Competition results store the event name, location, date and gold, silver and bronze medal counts. Public content falls back to honest demo placeholders when the CMS is unavailable.
+News, gallery content and competition results are modeled separately from page code. Gallery photographs belong to one of four public categories—academy training, tournaments and competitions, kids training, or adult training—and each category has its own public page. The trainer-facing editor at `/admin` uses a self-hosted PocketBase instance on the production VDS with username/password authentication, API rules, SQLite data and local file storage. Published content is public; creation, editing and deletion require the `content_admin` role. Competition results store the event name, location, date and gold, silver and bronze medal counts. The homepage presents the ten most recent competitions as a manually controlled carousel; the Achievements navigation item opens a complete reverse-chronological archive at /achievements/. Public content falls back to honest demo placeholders when the CMS is unavailable.
 
 ## Evidence Boundaries
 
@@ -55,7 +55,7 @@ The trainer narrative and the general claims about Yordan Petrov's team were sup
 
 ## Photography
 
-Real academy photography is pending. Temporary documentary images are allowed during build but must be replaceable through the content layer and may not imply real trainer or student identities.
+Real academy photography is pending. Temporary documentary images are allowed during build but must be replaceable through the content layer and may not imply real trainer or student identities. CMS guidance requests 1600 × 900 px (16:9) for news and competition material, and 1600 × 1200 px (4:3) for gallery photography with important subjects kept inside the central 70% safe area.
 
 ## Product Principles
 

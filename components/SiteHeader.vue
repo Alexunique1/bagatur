@@ -13,13 +13,15 @@ const logoSrc = computed(() => {
   const base = config.app.baseURL.endsWith('/') ? config.app.baseURL : config.app.baseURL + '/'
   return base + 'images/bagatur-logo-main.jpg'
 })
+const achievementsHref = computed(() => locale.value === 'bg' ? '/achievements/' : '/achievements/?lang=' + locale.value)
 const navItems = computed(() => [
-  { label: t.value.nav.programs, hash: '#programs' },
-  { label: t.value.nav.trainer, hash: '#trainer' },
-  { label: t.value.nav.schedule, hash: '#schedule' },
-  { label: t.value.nav.gallery, hash: '#gallery' },
-  { label: t.value.nav.news, hash: '#news' },
-  { label: t.value.nav.contact, hash: '#contact' }
+  { label: t.value.nav.programs, href: sectionHref('#programs') },
+  { label: t.value.nav.trainer, href: sectionHref('#trainer') },
+  { label: t.value.nav.achievements, href: achievementsHref.value },
+  { label: t.value.nav.schedule, href: sectionHref('#schedule') },
+  { label: t.value.nav.gallery, href: sectionHref('#gallery') },
+  { label: t.value.nav.news, href: sectionHref('#news') },
+  { label: t.value.nav.contact, href: sectionHref('#contact') }
 ])
 const go = () => { open.value = false }
 const changeLocale = async (code: Locale) => {
@@ -38,7 +40,7 @@ watch(() => route.fullPath, () => { open.value = false })
       </NuxtLink>
 
       <nav class="desktop-nav" :aria-label="t.nav.home">
-        <a v-for="item in navItems" :key="item.hash" :href="sectionHref(item.hash)">{{ item.label }}</a>
+        <a v-for="item in navItems" :key="item.href" :href="item.href">{{ item.label }}</a>
       </nav>
 
       <div class="header-actions">
@@ -71,7 +73,7 @@ watch(() => route.fullPath, () => { open.value = false })
 
     <div id="mobile-navigation" class="mobile-menu" :class="{ open }">
       <nav :aria-label="t.nav.home">
-        <a v-for="item in navItems" :key="item.hash" :href="sectionHref(item.hash)" @click="go">{{ item.label }}</a>
+        <a v-for="item in navItems" :key="item.href" :href="item.href" @click="go">{{ item.label }}</a>
       </nav>
       <a class="mobile-call" :href="'tel:' + sitePhone">{{ t.callAction }} · {{ sitePhoneLabel }}</a>
     </div>
