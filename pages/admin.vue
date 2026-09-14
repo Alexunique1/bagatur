@@ -235,7 +235,7 @@ onMounted(async () => {
       </header>
 
       <section v-if="!session" class="admin-login">
-        <p class="section-label">За треньора</p>
+
         <h1>Вход в редактора</h1>
         <p>Въведете потребителско име и парола.</p>
         <form @submit.prevent="login">
