@@ -14,7 +14,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  PROD_SITE_URL: https://bagatur.94-131-16-21.sslip.io
+  PROD_SITE_URL: https://bagaturbjj.com
   PROD_REMOTE_BASE: /var/www/bagatur
 
 jobs:
@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: production
-      url: https://bagatur.94-131-16-21.sslip.io
+      url: https://bagaturbjj.com
 
     steps:
       - name: Checkout
@@ -43,7 +43,7 @@ jobs:
         env:
           NUXT_APP_BASE_URL: /
           NUXT_PUBLIC_SITE_URL: ${{ env.PROD_SITE_URL }}
-          NUXT_PUBLIC_PREVIEW_MODE: 'true'
+          NUXT_PUBLIC_PREVIEW_MODE: 'false'
           NUXT_PUBLIC_CMS_URL: ''
 
       - name: Verify generated site
@@ -55,7 +55,12 @@ jobs:
           test -f .output/public/gallery/tournaments/index.html
           test -f .output/public/gallery/kids/index.html
           test -f .output/public/gallery/adults/index.html
-          grep -q 'noindex' .output/public/index.html
+          test -f .output/public/achievements/index.html
+          grep -q 'index, follow, max-image-preview:large' .output/public/index.html
+          if grep -q 'noindex' .output/public/index.html; then
+            echo 'Production homepage must be indexable.' >&2
+            exit 1
+          fi
           grep -q 'tel:+359877069665' .output/public/index.html
 
       - name: Package release
@@ -195,12 +200,19 @@ jobs:
           root_body="$(mktemp)"
           root_headers="$(mktemp)"
           tournaments_body="$(mktemp)"
-          trap 'rm -f "$root_body" "$root_headers" "$tournaments_body"' EXIT
+          achievements_body="$(mktemp)"
+          trap 'rm -f "$root_body" "$root_headers" "$tournaments_body" "$achievements_body"' EXIT
           curl -fsS --retry 6 --retry-delay 2 -D "$root_headers" -o "$root_body" "$PROD_SITE_URL/"
           grep -q 'Силен характер' "$root_body"
-          grep -qi '^x-robots-tag: noindex' "$root_headers"
+          grep -q 'index, follow, max-image-preview:large' "$root_body"
+          if grep -qi '^x-robots-tag:.*noindex' "$root_headers"; then
+            echo 'Production response must not send X-Robots-Tag: noindex.' >&2
+            exit 1
+          fi
           curl -fsS -o "$tournaments_body" "$PROD_SITE_URL/gallery/tournaments/"
           grep -q 'Турнири и състезания' "$tournaments_body"
+          curl -fsS -o "$achievements_body" "$PROD_SITE_URL/achievements/"
+          grep -q 'Всички постижения' "$achievements_body"
 
       - name: Deployment summary
         shell: bash

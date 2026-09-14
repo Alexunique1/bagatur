@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://bagatur-bjj.bg/</loc></url>
-  <url><loc>https://bagatur-bjj.bg/gallery/training/</loc></url>
-  <url><loc>https://bagatur-bjj.bg/gallery/tournaments/</loc></url>
-  <url><loc>https://bagatur-bjj.bg/gallery/kids/</loc></url>
-  <url><loc>https://bagatur-bjj.bg/gallery/adults/</loc></url>
+  <url><loc>https://bagaturbjj.com/</loc></url>
+  <url><loc>https://bagaturbjj.com/achievements/</loc></url>
+  <url><loc>https://bagaturbjj.com/gallery/training/</loc></url>
+  <url><loc>https://bagaturbjj.com/gallery/tournaments/</loc></url>
+  <url><loc>https://bagaturbjj.com/gallery/kids/</loc></url>
+  <url><loc>https://bagaturbjj.com/gallery/adults/</loc></url>
 </urlset>

@@ -1,4 +1,4 @@
-const siteUrl = process.env.NUXT_PUBLIC_SITE_URL || 'https://bagatur-bjj.bg'
+const siteUrl = process.env.NUXT_PUBLIC_SITE_URL || 'https://bagaturbjj.com'
 const baseURL = process.env.NUXT_APP_BASE_URL || '/'
 const previewMode = process.env.NUXT_PUBLIC_PREVIEW_MODE === 'true'
 const pages = ['/', '/admin', '/achievements/', '/api/ai-context', '/gallery/training/', '/gallery/tournaments/', '/gallery/kids/', '/gallery/adults/']

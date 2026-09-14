@@ -1,0 +1,57 @@
+(bagatur_site) {
+	root * /var/www/bagatur/current
+	encode zstd gzip
+
+	header {
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		X-Frame-Options "SAMEORIGIN"
+		Permissions-Policy "camera=(), microphone=(), geolocation=()"
+	}
+
+	@immutable path /_nuxt/*
+	header @immutable Cache-Control "public, max-age=31536000, immutable"
+
+	@media path /images/* /favicon.svg
+	header @media Cache-Control "public, max-age=2592000"
+
+	request_body {
+		max_size 12MB
+	}
+
+	@cmsSuperuser path /api/collections/_superusers/*
+	respond @cmsSuperuser 404
+
+	@cmsDashboard path /_/ /_/*
+	respond @cmsDashboard 404
+
+	@cmsApi path /api/*
+	reverse_proxy @cmsApi 127.0.0.1:8090 {
+		transport http {
+			read_timeout 360s
+		}
+	}
+
+	file_server
+
+	log {
+		output file /var/log/caddy/bagatur-access.log {
+			roll_size 10mb
+			roll_keep 5
+		}
+		format json
+	}
+}
+
+bagaturbjj.com {
+	import bagatur_site
+}
+
+www.bagaturbjj.com {
+	redir https://bagaturbjj.com{uri} permanent
+}
+
+bagatur.94-131-16-21.sslip.io {
+	import bagatur_site
+	header X-Robots-Tag "noindex, nofollow, noarchive, nosnippet, noimageindex"
+}

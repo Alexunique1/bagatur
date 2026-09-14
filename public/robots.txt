@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /admin
 
-Sitemap: https://bagatur-bjj.bg/sitemap.xml
+Sitemap: https://bagaturbjj.com/sitemap.xml
