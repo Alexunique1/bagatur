@@ -13,30 +13,17 @@ const props = defineProps<{
   }
 }>()
 
-const localized = (field: 'title' | 'body') => {
-  const key = (field + '_' + props.locale) as keyof CmsItem
-  const fallback = (field + '_bg') as keyof CmsItem
-  return String(props.result[key] || props.result[fallback] || '')
+const localizedTitle = () => {
+  const key = ('title_' + props.locale) as keyof CmsItem
+  return String(props.result[key] || props.result.title_bg || '')
 }
 
-const formattedDate = computed(() => {
-  const value = props.result.event_date
-  if (!value) return ''
-  const normalized = value.includes(' ') ? value.replace(' ', 'T') : value
-  const date = new Date(normalized)
-  if (Number.isNaN(date.getTime())) return value.slice(0, 10)
-  const language = props.locale === 'bg' ? 'bg-BG' : props.locale === 'ru' ? 'ru-RU' : 'en-GB'
-  return new Intl.DateTimeFormat(language, { day: 'numeric', month: 'long', year: 'numeric' }).format(date)
-})
 </script>
 
 <template>
   <article class="achievement-result">
     <div class="achievement-result__copy">
-      <time v-if="result.event_date" :datetime="result.event_date.slice(0, 10)">{{ formattedDate }}</time>
-      <h3>{{ result.competition_name || localized('title') }}</h3>
-      <p v-if="result.competition_location" class="achievement-result__location">{{ result.competition_location }}</p>
-      <p v-if="localized('body')">{{ localized('body') }}</p>
+      <h3>{{ result.competition_name || localizedTitle() }}</h3>
     </div>
     <div class="achievement-result__medals">
       <p>{{ medals.children }}</p>

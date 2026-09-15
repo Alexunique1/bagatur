@@ -1452,7 +1452,7 @@ h3 {
 .admin-panel {
   padding: clamp(24px, 4vw, 48px);
   border: 1px solid var(--line-light);
-  background: #fff;
+  background: var(--paper);
 }
 
 .admin-panel + .admin-panel {
@@ -1478,7 +1478,7 @@ h3 {
   padding: 11px 13px;
   border: 1px solid #a7ada8;
   border-radius: 2px;
-  background: #fff;
+  background: var(--paper);
   color: var(--ink);
 }
 
@@ -1544,7 +1544,7 @@ h3 {
   gap: 18px;
   align-items: center;
   padding: 14px;
-  background: #fff;
+  background: var(--paper);
 }
 
 .admin-item img {
@@ -2060,7 +2060,7 @@ h3 {
   margin: 80px auto 0;
   padding: clamp(28px, 5vw, 58px);
   border-top: 5px solid var(--gold);
-  background: #fff;
+  background: var(--paper);
   box-shadow: 0 24px 70px rgba(20, 19, 17, 0.08);
 }
 
@@ -2072,6 +2072,58 @@ h3 {
   line-height: 0.95;
 }
 
+.admin-kind-picker {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.admin-kind-picker button {
+  min-width: 0;
+  min-height: 84px;
+  display: grid;
+  align-content: center;
+  gap: 5px;
+  padding: 14px 16px;
+  border: 1px solid var(--ash);
+  border-radius: 2px;
+  background: var(--paper);
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+}
+
+.admin-kind-picker button:hover,
+.admin-kind-picker button:focus-visible {
+  border-color: var(--gold);
+  outline: 3px solid color-mix(in srgb, var(--gold) 25%, transparent);
+  outline-offset: 1px;
+}
+
+.admin-kind-picker button.active {
+  border-color: var(--forge);
+  background: var(--forge);
+  color: var(--bone);
+}
+
+.admin-kind-picker strong { font-size: 1rem; }
+.admin-kind-picker span { color: var(--ink); font-size: 0.875rem; line-height: 1.4; }
+.admin-kind-picker button.active span { color: var(--ash); }
+
+.admin-kind-lock {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 14px;
+  margin-top: 24px;
+  padding: 15px 16px;
+  border: 1px solid var(--bone-deep);
+  background: var(--bone);
+}
+
+.admin-kind-lock span { color: var(--ink); font-size: 0.875rem; font-weight: 800; text-transform: uppercase; }
+.admin-kind-lock strong { font-size: 1rem; }
+.admin-kind-lock small { grid-column: 1 / -1; color: var(--ink); line-height: 1.45; }
 .admin-state p,
 .admin-login > p { max-width: 62ch; color: #555850; }
 .admin-state .admin-primary-button { margin-top: 22px; }
@@ -2095,7 +2147,7 @@ h3 {
 .admin-library {
   padding: clamp(24px, 4vw, 42px);
   border-top: 5px solid var(--gold);
-  background: #fff;
+  background: var(--paper);
   box-shadow: 0 20px 60px rgba(20, 19, 17, 0.07);
 }
 
@@ -2115,9 +2167,9 @@ h3 {
   width: 100%;
   min-height: 48px;
   padding: 11px 13px;
-  border: 1px solid #aaa99f;
+  border: 1px solid var(--ash);
   border-radius: 2px;
-  background: #fff;
+  background: var(--paper);
   color: var(--ink);
   font: inherit;
 }
@@ -2132,7 +2184,7 @@ h3 {
   display: grid;
   gap: 15px;
   padding: 18px;
-  border: 1px solid #cfcec5;
+  border: 1px solid var(--bone-deep);
 }
 
 .admin-editor legend {
@@ -2144,8 +2196,12 @@ h3 {
 
 .admin-inline {
   display: grid;
-  grid-template-columns: 1fr 110px 170px;
+  grid-template-columns: minmax(110px, 160px);
   gap: 12px;
+}
+
+.admin-inline.is-result {
+  grid-template-columns: minmax(110px, 0.34fr) minmax(220px, 0.66fr);
 }
 
 .admin-medals {
@@ -2193,8 +2249,10 @@ h3 {
 .admin-library { position: sticky; top: 24px; }
 .admin-library__heading { display: flex; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 22px; }
 .admin-library__heading h2 { margin: 4px 0 0; font-size: 2.5rem; }
-.admin-library__heading button,
+.admin-library__new button,
 .admin-item button { border: 0; background: transparent; color: #55420e; cursor: pointer; font-weight: 800; }
+.admin-library__new { display: flex; flex-wrap: wrap; gap: 8px 16px; margin: -6px 0 22px; }
+.admin-library__new button { padding: 4px 0; }
 .admin-item {
   grid-template-columns: 100px 1fr;
   margin-top: 1px;
@@ -2210,7 +2268,9 @@ h3 {
   .admin-shell { width: min(100% - 24px, 680px); }
   .admin-workspace { grid-template-columns: 1fr; }
   .admin-library { position: static; }
-  .admin-inline { grid-template-columns: 1fr; }
+  .admin-inline,
+  .admin-inline.is-result { grid-template-columns: 1fr; }
+  .admin-kind-picker { grid-template-columns: 1fr; }
   .admin-medals { grid-template-columns: 1fr; }
   .admin-state, .admin-login { margin-top: 32px; }
 }

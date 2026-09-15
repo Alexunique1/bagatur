@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CmsItem } from '~/types/cms'
+import type { CmsItem, CmsKind } from '~/types/cms'
 import { cleanCmsBase, cmsErrorMessage, cmsRecord, type EditorAuth, type PocketBaseList } from '~/utils/cmsApi'
 
 definePageMeta({ layout: 'admin' })
@@ -16,6 +16,7 @@ const message = ref('')
 const errorMessage = ref('')
 const items = ref<CmsItem[]>([])
 const uploadFile = ref<File | null>(null)
+const originalKind = ref<CmsKind | null>(null)
 
 type EditorForm = Omit<CmsItem, 'id' | 'is_demo'> & { id?: string, external_image_url?: string }
 const emptyForm = (): EditorForm => ({
@@ -28,6 +29,13 @@ const emptyForm = (): EditorForm => ({
 })
 const form = reactive<EditorForm>(emptyForm())
 const isResult = computed(() => form.kind === 'result')
+const isEditing = computed(() => Boolean(form.id))
+const kindOptions: Array<{ value: CmsKind, label: string, description: string }> = [
+  { value: 'news', label: 'Новина', description: 'Заглавие, текст и снимка' },
+  { value: 'result', label: 'Резултат', description: 'Състезание и спечелени медали' },
+  { value: 'gallery', label: 'Галерия', description: 'Снимка в избрана категория' }
+]
+const kindName = (kind: CmsKind) => kind === 'news' ? 'Новина' : kind === 'gallery' ? 'Галерия' : 'Резултат от състезание'
 const imageGuidance = computed(() => {
   if (form.kind === 'gallery') {
     return 'Препоръчително: 1600 × 1200 px (4:3), JPG или WebP. Дръжте хората и важните детайли в централните 70% — обложките се изрязват адаптивно на различни екрани.'
@@ -47,9 +55,17 @@ const clearStatus = () => {
 
 const resetForm = () => {
   Object.assign(form, emptyForm())
+  originalKind.value = null
   uploadFile.value = null
   const input = document.querySelector<HTMLInputElement>('#content-image')
   if (input) input.value = ''
+}
+
+const startNew = (kind: CmsKind) => {
+  clearStatus()
+  resetForm()
+  form.kind = kind
+  window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
 const api = async <T>(path: string, init: RequestInit = {}, withAuth = true): Promise<T> => {
@@ -103,6 +119,10 @@ const logout = () => {
 
 const selectItem = (item: CmsItem) => {
   clearStatus()
+  uploadFile.value = null
+  const input = document.querySelector<HTMLInputElement>('#content-image')
+  if (input) input.value = ''
+  originalKind.value = item.kind
   Object.assign(form, {
     id: item.id, kind: item.kind, slug: item.slug,
     title_bg: item.title_bg || '', title_ru: item.title_ru || '', title_en: item.title_en || '',
@@ -133,6 +153,11 @@ const append = (payload: FormData, key: string, value: unknown) => {
 const save = async () => {
   if (!session.value) return
   clearStatus()
+
+  if (isEditing.value && originalKind.value && form.kind !== originalKind.value) {
+    errorMessage.value = 'Типът на съществуващ материал не може да се променя. Създайте нов материал от правилния тип.'
+    return
+  }
 
   if (isResult.value) {
     if (!form.competition_name?.trim() || !form.event_date) {
@@ -216,7 +241,7 @@ const removeItem = async (item: CmsItem) => {
   }
 }
 
-const kindLabel = (item: CmsItem) => item.kind === 'news' ? 'Новина' : item.kind === 'gallery' ? 'Галерия' : 'Резултат'
+const kindLabel = (item: CmsItem) => kindName(item.kind)
 
 onMounted(async () => {
   token.value = localStorage.getItem(storageKey) || ''
@@ -260,22 +285,38 @@ onMounted(async () => {
         <section class="admin-editor">
           <p class="section-label">{{ form.id ? 'Редактиране' : 'Нов материал' }}</p>
           <h1>{{ form.kind === 'news' ? 'Новина' : form.kind === 'gallery' ? 'Галерия' : 'Резултат' }}</h1>
+          <div v-if="!isEditing" class="admin-kind-picker" role="group" aria-label="Изберете тип на новия материал">
+            <button
+              v-for="option in kindOptions"
+              :key="option.value"
+              type="button"
+              :class="{ active: form.kind === option.value }"
+              :aria-pressed="form.kind === option.value"
+              @click="startNew(option.value)"
+            >
+              <strong>{{ option.label }}</strong>
+              <span>{{ option.description }}</span>
+            </button>
+          </div>
+          <div v-else class="admin-kind-lock">
+            <span>Тип материал</span>
+            <strong>{{ kindName(form.kind) }}</strong>
+            <small>Типът е заключен, за да не бъде заменен друг материал.</small>
+          </div>
           <form @submit.prevent="save">
-            <div class="admin-inline">
-              <label>Тип<select v-model="form.kind"><option value="news">Новина</option><option value="gallery">Галерия</option><option value="result">Резултат от състезание</option></select></label>
+            <div class="admin-inline" :class="{ 'is-result': isResult }">
               <label>Позиция<input v-model.number="form.sort_order" type="number" min="0" step="1"></label>
-              <label>Дата<input v-model="form.event_date" type="date" :required="isResult"></label>
+              <label v-if="isResult">Дата на състезанието<input v-model="form.event_date" type="date" required><small>Използва се за хронологично подреждане.</small></label>
             </div>
 
             <template v-if="isResult">
-              <label>Име на състезанието<input v-model="form.competition_name" type="text" placeholder="AJJF Пловдив" required></label>
-              <label>Град / място<input v-model="form.competition_location" type="text" placeholder="Пловдив, България"></label>
+              <label>Име на състезанието<input v-model="form.competition_name" type="text" placeholder="AGF Plovdiv Championships" required></label>
               <fieldset class="admin-medals"><legend>Медали на децата от отбора</legend>
                 <label>Златни<input v-model.number="form.gold_count" type="number" min="0" step="1" required></label>
                 <label>Сребърни<input v-model.number="form.silver_count" type="number" min="0" step="1" required></label>
                 <label>Бронзови<input v-model.number="form.bronze_count" type="number" min="0" step="1" required></label>
               </fieldset>
-              <p class="admin-help">Описанието е по желание, но ако го добавяте, попълнете версиите за трите езика.</p>
+              <p class="admin-help">На сайта ще се покажат само името на състезанието и броят на медалите.</p>
             </template>
 
             <label v-else>Технически адрес <small>(по желание — създава се автоматично)</small><input v-model="form.slug" type="text" placeholder="turnir-sofia-2026"></label>
@@ -302,17 +343,11 @@ onMounted(async () => {
               <label>Text<textarea v-model="form.body_en" rows="4" :required="form.kind === 'news'" /></label>
             </fieldset>
 
-            <template v-else>
-              <fieldset><legend>Описание на български</legend><label>Текст<textarea v-model="form.body_bg" rows="3" /></label></fieldset>
-              <fieldset><legend>Описание на русском</legend><label>Текст<textarea v-model="form.body_ru" rows="3" /></label></fieldset>
-              <fieldset><legend>Description in English</legend><label>Text<textarea v-model="form.body_en" rows="3" /></label></fieldset>
-            </template>
-
-            <label class="admin-image-upload">Снимка <small v-if="isResult">(по желание)</small>
+            <label v-if="!isResult" class="admin-image-upload">Снимка
               <input id="content-image" type="file" accept="image/jpeg,image/png,image/webp" aria-describedby="content-image-guidance" @change="onFile">
               <span id="content-image-guidance" class="admin-image-guidance">{{ imageGuidance }}</span>
             </label>
-            <label>Или готов URL <small>(по желание)</small><input v-model="form.external_image_url" type="url" placeholder="https://…"></label>
+            <label v-if="!isResult">Или готов URL <small>(по желание)</small><input v-model="form.external_image_url" type="url" placeholder="https://…"></label>
             <label class="admin-check"><input v-model="form.published" type="checkbox"> Публикувай веднага</label>
             <p v-if="message" class="admin-success" role="status">{{ message }}</p>
             <p v-if="errorMessage" class="admin-error" role="alert">{{ errorMessage }}</p>
@@ -324,7 +359,12 @@ onMounted(async () => {
         </section>
 
         <aside class="admin-library">
-          <div class="admin-library__heading"><div><p class="section-label">Архив</p><h2>Материали</h2></div><button type="button" @click="resetForm">＋ Нов</button></div>
+          <div class="admin-library__heading"><div><p class="section-label">Архив</p><h2>Материали</h2></div></div>
+          <div class="admin-library__new" aria-label="Създайте нов материал">
+            <button type="button" @click="startNew('news')">＋ Новина</button>
+            <button type="button" @click="startNew('result')">＋ Резултат</button>
+            <button type="button" @click="startNew('gallery')">＋ Галерия</button>
+          </div>
           <p v-if="!items.length">Все още няма материали.</p>
           <article v-for="item in items" :key="item.id" class="admin-item">
             <img v-if="item.image_url" :src="item.image_url" alt="">
